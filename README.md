@@ -48,8 +48,19 @@ Include in your head tag a link referecing to air.media.css file location , then
 *  .ad-slide-group is the parent class of the content slider. each slide will have the class ad-slide;
 *  adding the responsive attribute to the slider will make the slider responsive when the screen size is change. the default the height of the slider is the height of the first slide
 *   duration is used to set the time it takes a slide to stay on view. you can ommit it and the default is 5 seconds
-*   effect : 
-    *  fadeIn, slideUp, slideDown, slideLeft, slideRight, zoomIn, zoomOut, crossUp, crossDown, crossLeft, crossRight.
+*   effect :  This is the transition effect
+    *  fadeIn, 
+    *   slideUp, 
+    *   slideDown, 
+    *   slideLeft, 
+    *   slideRight, 
+    *   zoomIn, 
+    *   zoomOut, 
+    *   crossUp, 
+    *   crossDown, 
+    *   crossLeft, 
+    *   crossRight.
+
 All the effects are written in css and can be extended with the scss files. if you have any transition effect in mind, contact us.
 *   Top stop autoplay of the slider, add the attribute 'manual' to the .ad-slide-group. This way, the slide will change only if the bullets or navigation buttons are clicked.
 *showNav is another attribute that is set to true by default. to ommit the navigation buttons (prev and next buttons), set the attrubute showNav to false;
@@ -83,7 +94,49 @@ All the effects are written in css and can be extended with the scss files. if y
 
 ```
 
-* Put your items into the .ad-caurosel-item, or better, set the items attribute to the class name of the items you want the caurosel to move.
+* Put your items into the .ad-caurosel-item, or better, set the items attribute to the class name of the items you want the caurosel to move. 
+    *   eg. i want the item to be .ad-persons (which has a defined width). The carousel uses the width of the items to make calculations of the appropriate number of items that are suppose to be in view, in any given
+    screen size.
+    *   Hence, set the items attribute of the carousel to ad-persons,
+    *   Then place the element with the class ad-persons in the carousel
+
+```html
+ <div class="ad-carousel" items="ad-persons">
+  
+    <div class="ad-persons">
+        {{IMG}}
+        Person Name
+    </div>
+
+     <div class="ad-persons">
+        {{IMG}}
+        Person Name
+    </div>
+      <div class="ad-persons">
+        {{IMG}}
+        Person Name
+    </div>
+      <div class="ad-persons">
+        {{IMG}}
+        Person Name
+    </div>
+      <div class="ad-persons">
+        {{IMG}}
+        Person Name
+    </div>
+      <div class="ad-persons">
+        {{IMG}}
+        Person Name
+    </div>
+      <div class="ad-persons">
+        {{IMG}}
+        Person Name
+    </div>
+
+
+</div>
+
+```
 
 
 ## Media Player
