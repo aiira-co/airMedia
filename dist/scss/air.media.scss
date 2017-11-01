@@ -1,0 +1,21 @@
+/*
+   ** airMedia
+   ** Author: Kofi Owusu-Afriyie
+   **Version: beta 0.5.1 
+
+*/
+
+
+/* BASE-- base, variables, mixins, normalize */
+
+@import "base/_variables.scss";
+@import "base/_mixins.scss";
+@import "base/_normalize.scss";
+@import "base/_animation.scss";
+
+
+/* Components --- Media elements styles*/
+
+@import "component/_slider.scss";
+@import "component/_carousel.scss";
+@import "component/_video.scss";

@@ -1,0 +1,43 @@
+@mixin transEase($time, $delay:0s) {
+    -webkit-transition: all $time ease-out $delay;
+    -moz-transition: all $time ease-out $delay;
+    -o-transition: all $time ease-out $delay;
+    transition: all $time ease-out $delay;
+}
+
+@mixin transform($skew) {
+    -webkit-transform: skew($skew);
+    -moz-transform: skew($skew);
+    -o-transform: skew($skew);
+    transition: skew($skew);
+}
+
+@mixin scale($value) {
+    -webkit-transform: scale($value);
+    -moz-transform: scale($value - 0.1);
+    -o-transform: scale($value);
+    transition: scale($value);
+}
+
+@mixin rotate($deg) {
+    -webkit-transform: rotate($deg);
+    -moz-transform: rotate($deg);
+    -o-transform: rotate($deg);
+    transition: rotate($deg);
+}
+
+@mixin shadow($val1, $topDown, $blurValue, $spreadValue, $color) {
+    -webkit-box-shadow: $val1 $topDown $blurValue $spreadValue $color;
+    -moz-box-shadow: $val1 $topDown $blurValue $spreadValue $color;
+    -o-box-shadow: $val1 $topDown $blurValue $spreadValue $color;
+    -mz-box-shadow: $val1 $topDown $blurValue $spreadValue $color;
+    box-shadow: $val1 $topDown $blurValue $spreadValue $color;
+}
+
+@mixin shadow-inset($val1, $topDown, $blurValue, $spreadValue, $color) {
+    -webkit-box-shadow: inset $val1 $topDown $blurValue $spreadValue $color;
+    -moz-box-shadow: inset $val1 $topDown $blurValue $spreadValue $color;
+    -o-box-shadow: inset $val1 $topDown $blurValue $spreadValue $color;
+    -mz-box-shadow: inset $val1 $topDown $blurValue $spreadValue $color;
+    box-shadow: inset $val1 $topDown $blurValue $spreadValue $color;
+}
