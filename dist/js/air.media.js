@@ -100,7 +100,7 @@ $(document).ready(function () {
             // autoplay = new AutoPlay;
             // console.log('autoplay meDat method called',autoplay.meDat());
 
-            console.log('function autopplay called', $('#' + slideId).attr('currentslide'));
+            // console.log('function autopplay called', $('#' + slideId).attr('currentslide'));
 
             let currentSlide = $('#' + slideId).attr('currentslide');
             // console.log('update Slide');
@@ -143,6 +143,64 @@ $(document).ready(function () {
     }
 
 
+
+
+
+
+
+
+
+
+    // VIDEO PLAYER CLASS
+
+
+    class videoPlayerUpdate {
+
+        // Function to Update the video timmer and the seekbar
+        updateVideoTimer(vid, timer, seekbar) {
+
+            vid.onloadedmetadata = function () {
+                seekbar.max = vid.duration;
+                // timer.find('span.duration').html(((vid.duration * 0.0036)).toFixed(2).toString().replace('.', ':'));
+
+                var minutes = parseInt(vid.duration / 60, 10);
+                var seconds = ("0" + parseInt(vid.duration % 60)).slice(-2);
+                timer.find('span.duration').html(minutes + ':' + seconds);
+                // console.log('show minutes and secs', minutes, seconds);
+                // (Put the minutes and seconds in the display)
+
+                // clearInterval(i);
+
+                // console.log('duratoin is', videoPlayer[0].duration, seekbar.max);
+            };
+
+
+            vid.ontimeupdate = function () {
+                // Display the current position of the video in a <p> element with id="demo"
+                seekbar.value = vid.currentTime;
+                var currentMin = parseInt(vid.currentTime / 60, 10);
+                var currentSec = ("0" + parseInt(vid.currentTime % 60)).slice(-2);
+                timer.find('span.currentTime').html(currentMin + ':' + currentSec);
+
+                // timer.find('span.currentTime').html(((vid.currentTime * 0.0036)).toFixed(2).toString().replace('.', ':'));
+                if (vid.currentTime >= vid.duration) {
+                    // console.log('done');
+                    let parent = timer.parents('.ad-video');
+                    let playBtnb = parent.find('button.play');
+                    playBtnb.find('i.fa').attr('class', '').addClass('fa fa-play');
+                    parent.attr('isplaying', 'false');
+                }
+
+            }
+        }
+
+    }
+
+
+
+
+
+
     function scanDOM4media() {
 
         // scan for ad-slide-group
@@ -157,6 +215,10 @@ $(document).ready(function () {
             constructCarousel();
         }
 
+        if ($('.ad-video').length) {
+            console.log('video foound');
+            constructVideo();
+        }
 
 
     }
@@ -537,4 +599,398 @@ $(document).ready(function () {
 
     }
 
+
+
+
+
+    // VIDEO PLAYER CONTROLS
+
+    function constructVideo() {
+        $('.ad-video').each(function () {
+
+            // check for video title: create the video title div
+            if ($(this)[0].hasAttribute('videoTitle')) {
+                let videoTitleDIV = `<div class="ad-heading text-center">
+                ` + $(this).attr('videoTitle') + `
+                    </div>`;
+                $(this).append(videoTitleDIV);
+
+            }
+
+            videoPlayerId = $(this)[0].hasAttribute('videoId') ? '#' + $(this).attr('videoId') : '#video';
+            let videoPlayer = $(this).find(videoPlayerId);
+            videoPlayer.removeAttr('controls');
+
+            //Create the Video Controls
+
+            let videoControlHTML = `
+            
+                          <span class="ad-message-display">
+                            Volume: 95%
+                          </span>
+                          <div class="ad-controls">
+                            <input type="range" name="" min="0" value="0" class="" id="seeker-control">
+                            <div>
+                              <button class="ad-btn ad-icon clear ad-round play shine-tgreen">
+                                <i class="fa fa-play"></i>
+                              </button>
+                              <span class="ad-timer">
+                                <span class="currentTime">0:00</span>
+                                /
+                                <span class="duration">1:06</span>
+                              </span>
+                              <span class="rFloat">
+                                <span class="volume-control">
+            
+                                  <button class="ad-btn ad-round clear ad-icon shine-tgreen">
+                                    <i class="fa fa-volume-up"></i>
+                                  </button>
+                                  <div class="volume-range">
+                                    <input type="range" step="0.05" min="0" max="1" value="1" name="" id="volume-control">
+                                  </div>
+                                </span>
+                                <button class="ad-btn ad-round clear ad-icon shine-tgreen fullscreen">
+                                  <i class="fa fa-clone"></i>
+                                </button>
+            
+                                <button class="ad-btn ad-round clear ad-icon shine-tgreen">
+                                  <i class="fa fa-cog"></i>
+                                </button>
+                              </span>
+                            </div>
+                          </div>
+            `;
+            $(this).append(videoControlHTML);
+            //check if video is at autoplay
+            if (videoPlayer[0].hasAttribute('autoplay')) {
+
+                $(this).attr('isplaying', 'true');
+            } else {
+                $(this).attr('isplaying', 'false');
+
+            }
+
+            // Set The Timmer currentTime / Duration
+            timer = $(this).find('span.ad-timer');
+
+            $(this).find('span.ad-message-display').fadeOut('slow');
+            // console.log($(videoPlayerId));
+            // seekbar = $(this).find('input#seeker-control-' + videoPlayerId.replace('#', '') + '')[0];
+            seekbar = $(this).find('input#seeker-control')[0];
+
+            // console.log('create video player instance');
+            let videoNuu = new videoPlayerUpdate();
+            videoNuu.updateVideoTimer(videoPlayer[0], timer, seekbar);
+
+        });
+    }
+
+
+    // Change the mode to remain when its clicked
+    wrapper.on('click', '.ad-video', function (e) {
+        // console.log('video parent clicked');
+
+        let videoPlayerId = $(this)[0].hasAttribute('videoId') ? '#' + $(this).attr('videoId') : '#video';
+        let icon = $(this).find('button.play>i.fa');
+        // console.log(parent.attr('isplaying'));
+        if ($(this).attr('isplaying') == 'true') {
+            $(videoPlayerId)[0].pause();
+            $(this).attr('isplaying', 'false');
+            icon.removeClass('fa-pause');
+            icon.addClass('fa-play');
+            // console.log('video paused');
+        } else {
+            $(videoPlayerId)[0].play();
+            $(this).attr('isplaying', 'true');
+            icon.removeClass('fa-play');
+            icon.addClass('fa-pause');
+            // console.log('video played');
+        }
+
+    });
+
+
+    // Toggle play and pause when video is clicked
+    wrapper.on('click', '.ad-video .ad-controls', function (e) {
+        e.stopPropagation();
+
+        // console.log('controls clicked');
+        let parent = $(this).parents('.ad-video'); // get your parent i.e .ad-video
+        $(this).toggleClass('fixedmode');
+
+        if ($(this).hasClass('fixedmode')) {
+
+            var displayMessage = parent.find('span.ad-message-display');
+            displayMessage.fadeIn('slow');
+            displayMessage.text('Controls Mode: Fixed');
+            setTimeout(function () {
+                displayMessage.fadeOut('slow');
+            }, 1500);
+
+        } else {
+            var displayMessage = parent.find('span.ad-message-display');
+            displayMessage.fadeIn('slow');
+            displayMessage.text('Controls Mode: Default');
+            setTimeout(function () {
+                displayMessage.fadeOut('slow');
+            }, 1500);
+
+        }
+
+    });
+
+
+
+
+
+
+
+
+
+    wrapper.on('click', '.ad-video button.play', function (e) {
+        e.stopPropagation();
+
+
+        let parent = $(this).parents('.ad-video');
+        let videoPlayerId = parent[0].hasAttribute('videoId') ? '#' + parent.attr('videoId') : '#video';
+        let icon = $(this).find('i.fa');
+        // console.log(parent.attr('isplaying'));
+        if (parent.attr('isplaying') == 'true') {
+            $(videoPlayerId)[0].pause();
+            parent.attr('isplaying', 'false');
+            icon.removeClass('fa-pause');
+            icon.addClass('fa-play');
+            // console.log('video paused');
+        } else {
+            $(videoPlayerId)[0].play();
+            parent.attr('isplaying', 'true');
+            icon.removeClass('fa-play');
+            icon.addClass('fa-pause');
+            // console.log('video played');
+        }
+
+    });
+
+
+
+
+
+
+
+
+
+
+    wrapper.on('change', '.ad-video input#volume-control', function (e) {
+
+        e.stopPropagation();
+
+        var parent = $(this).parents('.ad-video'); // get your video
+        let videoPlayerId = parent[0].hasAttribute('videoId') ? '#' + parent.attr('videoId') : '#video';
+        let vid = parent.find(videoPlayerId)[0];
+        vid.volume = $(this).val(); //update its volume
+
+        volumeIcon = $(this).parents('.volume-control').find('button.ad-icon>i.fa');
+        // console.log(volumeIcon);
+
+        volumeIcon.attr('class', '');
+        // console.log('volume is ', $(this).val());
+        if ($(this).val() >= 0.6) {
+            icon = 'fa fa-volume-up';
+
+            // console.log('volume up');
+        } else if ($(this).val() <= 0.4 && $(this).val() > 0) {
+            icon = 'fa fa-volume-down';
+            // console.log('volume down');
+        } else if ($(this).val() == 0) {
+            icon = 'fa fa-volume-off';
+            // console.log('volume mute');
+        } else {
+            icon = 'fa fa-volume-up';
+            // console.log('volume normal');
+        }
+
+        volumeIcon.addClass(icon);
+        var displayMessage = parent.find('span.ad-message-display');
+        displayMessage.fadeIn('slow');
+        displayMessage.text('Volume: ' + Math.round($(this).val() * 100) + '%');
+        setTimeout(function () {
+            displayMessage.fadeOut('slow');
+        }, 1500)
+    });
+
+
+
+
+
+
+
+
+    //get scrolling event to manipulate the video;
+    wrapper.on('mousewheel', '.ad-video .volume-control', function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+
+        let parent = $(this).parents('.ad-video'); // get your video
+        let volumeRange = parent.find('input#volume-control')[0];
+
+        let videoPlayerId = parent[0].hasAttribute('videoId') ? '#' + parent.attr('videoId') : '#video';
+        let vid = parent.find(videoPlayerId)[0];
+        let volumeIcon = parent.find('.volume-control button > i.fa');
+        volumeIcon.attr('class', '');
+        // get the scroll value
+        // console.log('mouse scroll value',e.scrollHeight());
+        // only move the volumeRange and the effect will propagate
+        if (e.originalEvent.wheelDelta / 120 > 0) {
+            // console.log('scrolling up !', e.originalEvent.wheelDelta);
+            if (volumeRange.value !== 1) {
+                volumeRange.value = volumeRange.value + 0.1;
+                // console.log('increased  volllllll', volumeRange.value);
+            }
+
+        } else {
+            // console.log('scrolling down !', e.originalEvent.wheelDelta);
+            if (volumeRange.value !== 0) {
+
+                volumeRange.value = volumeRange.value - 0.1;
+
+                // console.log('decrease  volllllll', volumeRange.value);
+            }
+        }
+
+        vid.volume = volumeRange.value;
+
+        let displayMessage = parent.find('span.ad-message-display');
+
+        // console.log(volumeRange.value);
+
+
+
+        if (vid.volume >= 0.6) {
+            icon = 'fa fa-volume-up';
+
+            // console.log('volume up');
+        } else if (vid.volume <= 0.4 && vid.volume > 0) {
+            icon = 'fa fa-volume-down';
+            // console.log('volume down');
+        } else if (vid.volume == 0) {
+            icon = 'fa fa-volume-off';
+            // console.log('volume mute');
+        } else {
+            icon = 'fa fa-volume-up';
+            // console.log('volume normal');
+        }
+
+        volumeIcon.addClass(icon);
+
+        displayMessage.fadeIn('slow');
+        displayMessage.text('Volume: ' + Math.round(vid.volume * 100) + '%');
+        setTimeout(function () {
+            displayMessage.fadeOut('slow');
+        }, 1500);
+
+
+
+    });
+
+
+
+
+
+
+
+
+
+
+
+
+
+    // Set volume to zero/mute when volume btn is clcked
+    wrapper.on('click', '.ad-video .volume-control button', function (e) {
+        e.stopPropagation();
+
+        var parent = $(this).parents('.ad-video'); // get your video
+        let videoPlayerId = parent[0].hasAttribute('videoId') ? '#' + parent.attr('videoId') : '#video';
+        let vid = parent.find(videoPlayerId)[0];
+        let volumeIcon = $(this).find('i.fa');
+        // console.log(volumeIcon);
+        volumeIcon.attr('class', '');
+
+        let volumeRange = parent.find('input#volume-control')[0];
+        let displayMessage = parent.find('span.ad-message-display');
+
+        // console.log(volumeRange.value);
+
+        if (vid.volume !== 0) {
+            // store current volume for unmute volume
+            $(this).attr('volume', vid.volume);
+
+            vid.volume = 0; //update its volume
+            volumeRange.value = 0;
+            icon = 'fa fa-volume-off';
+
+
+        } else {
+            // get the previous volume stored
+
+            vid.volume = parseFloat($(this).attr('volume')); //update its volume
+            volumeRange.value = parseFloat($(this).attr('volume'));
+            icon = 'fa fa-volume-up';
+        }
+
+
+        volumeIcon.addClass(icon);
+
+        displayMessage.fadeIn('slow');
+        displayMessage.text('Volume: ' + Math.round(vid.volume * 100) + '%');
+        setTimeout(function () {
+            displayMessage.fadeOut('slow');
+        }, 1500);
+    });
+
+
+
+
+
+
+
+
+
+
+
+
+    //get seeking the video.
+    wrapper.on('click', '.ad-video input#seeker-control', function (e) {
+        e.stopPropagation();});
+
+    wrapper.on('change', '.ad-video input#seeker-control', function (e) {
+        e.stopPropagation();
+
+        var parent = $(this).parents('.ad-video'); // get your video
+        let videoPlayerId = parent[0].hasAttribute('videoId') ? '#' + parent.attr('videoId') : '#video';
+        let vid = parent.find(videoPlayerId)[0];
+        vid.currentTime = $(this).val(); //update its volume;
+        parent.find('span.currentTime').html(vid.currentTime);
+        // console.log('seeking');
+    });
+
+
+
+    // Get Fullscreen
+    wrapper.on('click', '.ad-video .fullscreen', function (e) {
+        e.stopPropagation();
+
+        let parent = $(this).parents('.ad-video');
+        let videoPlayerId = parent[0].hasAttribute('videoId') ? '#' + parent.attr('videoId') : '#video';
+        video = parent.find(videoPlayerId)[0];
+
+        if (video.requestFullscreen) {
+            video.requestFullscreen();
+        } else if (video.webkitRequestFullscreen) {
+            video.webkitRequestFullscreen();
+        } else if (video.mozRequestFullScreen) {
+            video.mozRequestFullScreen();
+        } else if (video.msRequestFullscreen) {
+            video.msRequestFullscreen();
+        }
+    });
 });

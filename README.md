@@ -140,5 +140,79 @@ All the effects are written in css and can be extended with the scss files. if y
 
 
 ## Media Player
+   
+Adding airdesign's Video and Audio to your html is as simple as adding the video element itself.
+*   Create a div with class '.ad-video';
+*   In the element 'div.ad-video' add the video element with the 'controls' attribute.
+    *   Add an Id to the video, eg myVideo.
+    *   Add an attribute 'videoId' to the div.ad-video, setting the id of the video element as its value.
+    *   This is useful if you want to display more than one video player on the page.
+    *   By default, the id of the video should be id='video';
 
-Working on it....
+*   [Optional] you can add the attribut 'videoTitle' to the div element.
+    *   The videoTitle attribute is used to display the title of the video when ever the user hovers on top of the video.
+*   Done.!
+
+
+
+```html
+
+ <div class="ad-video" videoId="dress">
+    <video id="dress" src="videos/dress.mp4" controls></video>
+</div>
+
+```
+
+
+* Width the video title.
+
+```html
+
+ <div class="ad-video" videoTitle="Dress Well, Men's shirt pull-ups" videoId="dress">
+    <video id="dress" src="videos/dress.mp4" controls></video>
+</div>
+
+```
+
+
+
+* Note that the videoId attribute of the div.ad-video matches the video id. For more than one video see:
+
+```html
+
+ <div class="ad-video" videoTitle="My Birthday" videoId="post0777">
+    <video id="post0777" src="videos/post0777.mp4" controls></video>
+</div>
+
+<div class="ad-video" videoTitle="10 Tips of the day" videoId="post2123">
+    <video id="post2123" src="videos/post0777.mp4" controls></video>
+</div>
+
+```
+
+###Features
+*   Hover over the video to display controls.
+    * If you dont like the slide in effects of the controls, click on the video control (not on a button) to switch to fixed mode.
+    *   This way, the video-controls will fadeIn when hovered
+
+*   Click of the video to play or pause,
+*   Click on the volume button or icon to mute or set volume to the previous value before it was muted.
+*   Scroll up or down on the volume button to increase or decrease volume. (at the moment it only scrolls to the max volume of 50%, working on it  to fix that issue);
+*   Make Video full screen by clicking on the fullscreen button
+*   Click the more/setting icon to display other info, such as 'video playlist, settings, video info etc.' [under development];
+
+    
+
+
+###For Audio
+    Working on it.
+* expecting...
+
+
+```html
+
+ <div class="ad-audio" audioTitle="Eagle's Wing" audioInfo="Hillsong" audioId="audio">
+    <audio id="audio" src="music/hil_023233.mp4" controls></audio>
+</div>
+
+```

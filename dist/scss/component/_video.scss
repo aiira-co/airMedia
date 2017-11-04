@@ -1,0 +1,122 @@
+.ad-video {
+    display: block;
+    width: 100%;
+    height: auto;
+    position: relative;
+    background-color: $dark;
+    overflow: hidden;
+    color: white;
+    video {
+        width: 100%;
+    }
+    &:hover {
+        .ad-controls {
+            bottom: 0;
+            &.fixedmode {
+                opacity: 1;
+            }
+        }
+    }
+    .ad-heading {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        width: 100%;
+        height: 30px;
+        padding-top: 5px;
+        background: linear-gradient( rgba(black, .8) 10%, rgba(0, 0, 0, 0.658), transparent);
+        color: white;
+        opacity: 0;
+        @include transEase(.35s);
+        border-radius: 0 0 40% 40%;
+        &:hover {
+            opacity: 1;
+        }
+    }
+    span.ad-message-display {
+        background-color: rgba(black, .7);
+        color: white;
+        position: absolute;
+        top: 40px;
+        left: 24px;
+        border-radius: 2px;
+        padding: 4px 10px;
+    }
+    .ad-controls {
+        display: block; // background-color:  rgba($dark, 0.9);
+        background: linear-gradient(transparent 5%, rgba(0, 0, 0, 0.658), black);
+        width: 100%;
+        height: 40px; // margin-top:-50px;
+        // z-index: 500;
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: -36px;
+        @include transEase(.35s, .4s);
+        &.fixedmode {
+            bottom: 0;
+            opacity: 0;
+        }
+        &>input[type="range"] {
+            display: block;
+            width: 100%;
+            margin: 0; // -webkit-appearance: none;
+        } // range design
+        input[type="range"] {
+            &::-webkit-slider-runnable-track {
+                background-color: $tGreen;
+            }
+            &::-webkit-slider-thumb {
+                width: 20px;
+                height: 10px;
+                margin-top: -3.525px;
+                border-color: transparent; //    @include scale(.3);
+                @include shadow(0, 0, 10px, 5px, $tGreen);
+                &:hover {
+                    background-color: white;
+                    border-color: rgba($dark, .2);
+                }
+            }
+        }
+        button.ad-btn {
+            margin-top: 3px;
+            &.outline.ad-flat {
+                color: white;
+            }
+        }
+        .volume-control {
+            position: relative;
+            .volume-range {
+                left: 50%;
+                margin-left: -51px;
+                top: -75px;
+                display: inline-block;
+                width: 70px;
+                height: 10px;
+                background-color: rgba(black, .7);
+                position: absolute;
+                transform-origin: (0, 0);
+                padding: 5px 14px;
+                border-radius: 2px;
+                overflow: hidden;
+                opacity: 0;
+                visibility: collapse;
+                @include rotate(270deg);
+                @include transEase(.3s);
+                input {
+                    // margin-top:10px;
+                    position: relative;
+                    top: -12px;
+                    width: 100%;
+                }
+            }
+            &:hover {
+                .volume-range {
+                    opacity: 1;
+                    visibility: visible;
+                }
+            }
+        }
+    }
+}
