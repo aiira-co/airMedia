@@ -1,0 +1,80 @@
+.ad-spinner {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background-color: $dark;
+    z-index: 60;
+
+ 
+     &.whiteBG{
+        background-color:white;
+        color:$dark;
+    }
+    
+
+    &.smokeBG{
+        background-color:$smoke;
+        color:$dark;
+    }
+
+    &.primBG{
+        background-color:$prim;
+        color:white;
+    }
+
+    &.pinkBG{
+        background-color:$pink;
+        color:white;
+    }
+
+    &.tgreenBG{
+        background-color:$tGreen;
+        color:$dark;
+    }
+
+    
+    &:before {
+        position: absolute;
+        width: 100px;
+        height: 100px;
+        content: '';
+        // background-color: greenyellow;
+        left: 50%;
+        margin-left: -55px;
+        top: 50%;
+        margin-top: -55px;
+
+        border-radius: 50%;
+        border:8px solid  greenyellow;
+        -webkit-animation: lds-ripple 1s cubic-bezier(0, 0.2, 0.8, 1) infinite;
+        animation: lds-ripple 1s cubic-bezier(0, 0.2, 0.8, 1) infinite;
+    }
+}
+
+@-webkit-keyframes lds-ripple {
+    0% {
+        // box-shadow: 0 0 1px 3px red;
+        transform: scale(.1);
+        opacity: 1;
+    }
+    100% {
+        // box-shadow: 0 0 1px 5px red;
+        transform: scale(1);
+        opacity: 0;
+    }
+}
+
+@keyframes lds-ripple {
+    0% {
+        // box-shadow: 0 0 1px 1px rgb(0, 255, 170);
+        transform: scale(.1);
+        opacity: 1;
+    }
+    100% {
+        // box-shadow: 0 0 1px 15px rgb(0, 255, 170);
+        transform: scale(1);
+        opacity: 0;
+    }
+}

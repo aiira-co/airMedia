@@ -63,7 +63,67 @@ Include in your head tag a link referecing to air.media.css file location , then
 
 All the effects are written in css and can be extended with the scss files. if you have any transition effect in mind, contact us.
 *   Top stop autoplay of the slider, add the attribute 'manual' to the .ad-slide-group. This way, the slide will change only if the bullets or navigation buttons are clicked.
-*showNav is another attribute that is set to true by default. to ommit the navigation buttons (prev and next buttons), set the attrubute showNav to false;
+*   showNav is another attribute that is set to true by default. to ommit the navigation buttons (prev and next buttons), set the attrubute showNav to false;
+
+
+*   There are  cases where the slider will flicker or wait for some seconds before the contents appear, such occurances are not good for user experience. Instead of letting the user see that, the best solution is to add a waiting animation. 
+    *   To do that, add a div with the class .ad-spinner.
+    *   The spinner class will show for 3ms or until the content of the slider, carousel or video is fully loaded.
+    *   This also solves the case of constructing 'air media's element which are called via AJAX.
+    *   airDesign also has a class called 'is-loading' which can be applied to the media elements, when the loading is done, airMedia automatically removes  the class.
+
+
+```html
+ <div class="ad-slide-group" effect="zoomIn">
+     <div class="ad-spinner "></div>
+     
+    <div class="ad-slide ">
+        ...
+    </div>
+    <div class="ad-slide ">
+        ...
+    </div>
+    <div class="ad-slide ">
+      ...
+    </div>
+    <div class="ad-slide ">
+      ...
+    </div>
+
+  </div>
+
+```
+
+* Using is-loading class
+
+
+```html
+ <div class="ad-slide-group is-loading" effect="zoomIn">
+
+    <div class="ad-slide ">
+        ...
+    </div>
+    <div class="ad-slide ">
+        ...
+    </div>
+    <div class="ad-slide ">
+      ...
+    </div>
+    <div class="ad-slide ">
+      ...
+    </div>
+
+  </div>
+
+```
+
+*   NOTE: The loading div can be applied to all airmedia's components. the 'background-color' property of the ad-spinner div can be change to match the template of your design.
+    *   From airDesign's CSS framework, the class: 
+    *   darkBG applies a dark background -- default for the ad-spinner class
+    *   whiteBG applies a white background
+    *   pinkBG applies a pink background
+    *   blueBG applies a blue background
+    *   primBG applies a primary color background & etc.
 
 
 ## Carousel
@@ -153,7 +213,16 @@ Adding airdesign's Video and Audio to your html is as simple as adding the video
     *   The videoTitle attribute is used to display the title of the video when ever the user hovers on top of the video.
 *   Done.!
 
+*   Without any videoId attribute. make sure to set the id of the video element to 'video'. use this if its the only video on the webpage
 
+```html
+
+ <div class="ad-video">
+    <video id="video" src="videos/dress.mp4" controls></video>
+</div>
+
+```
+*   With  videoId attribute. Note: the id of the video element is the same as the value of the videoId attribute. This way, your webpage can contain more than on video.
 
 ```html
 

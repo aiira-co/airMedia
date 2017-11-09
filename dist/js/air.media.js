@@ -25,71 +25,85 @@ $(document).ready(function () {
         // google = 'ama';
 
         start(duration, slideId, effect, slidesLength) {
-            setInterval(function () {
-                // autoplay = new AutoPlay;
-                // console.log('autoplay meDat method called',autoplay.meDat());
+            let timmer = setInterval(function () {
+                //check to see if the slider exists in the current page
+                // For the sack of ajax calls
 
-                // console.log('function autoplay called on id', slideId);
+                if ($('#' + slideId).length == 0) {
+                    console.log('interval cleared. no slider found');
+                    clearInterval(timmer);
+                } else {
 
-                let currentSlide = $('#' + slideId).attr('currentslide');
-                // console.log('With current slide of', currentSlide, slidesLength);
-                // console.log('update Slide');
-                for (let i = 0; i < slidesLength; i++) {
-                    if (i == currentSlide) {
-                        // console.log('found a match');
-                        $('#' + slideId).find('.ad-slide')[i].classList.add('exit');
-                        // wait to remove it
-                        setTimeout(function () {
-                            $('#' + slideId).find('.ad-slide')[i].classList.remove('active');
-                            $('#' + slideId).find('.ad-slide')[i].classList.remove('exit');
-                        }, 1050)
 
-                        $('#' + slideId).find('.ad-slide-bullet span')[i].classList.remove('active');
 
-                        // console.log('current found');
+                    // check if its paused
 
-                        if (effect == "slideLeft" || effect == "slideRight") {
-                            setTimeout(function () {
+                    if (!$('#' + slideId)[0].hasAttribute('pause')) {
 
-                                if ($('#' + slideId).attr('currentslide') == (slidesLength - 1)) {
-                                    // console.log('on the last slide');
-                                    $('#' + slideId).find('.ad-slide')[0].classList.add('active');
-                                    $('#' + slideId).find('.ad-slide-bullet span')[0].classList.add('active');
-                                    $('#' + slideId).attr('currentslide', 0);
+                        let currentSlide = $('#' + slideId).attr('currentslide');
+                        // console.log('With current slide of', currentSlide, slidesLength);
+                        // console.log('update Slide');
+                        for (let i = 0; i < slidesLength; i++) {
+                            if (i == currentSlide) {
+                                // console.log('found a match');
+                                $('#' + slideId).find('.ad-slide')[i].classList.add('exit');
+                                // wait to remove it
+                                setTimeout(function () {
+                                    $('#' + slideId).find('.ad-slide')[i].classList.remove('active');
+                                    $('#' + slideId).find('.ad-slide')[i].classList.remove('exit');
+                                }, 1050)
+
+                                $('#' + slideId).find('.ad-slide-bullet span')[i].classList.remove('active');
+
+                                // console.log('current found');
+
+                                if (effect == "slideLeft" || effect == "slideRight") {
+                                    setTimeout(function () {
+
+                                        if ($('#' + slideId).attr('currentslide') == (slidesLength - 1)) {
+                                            // console.log('on the last slide');
+                                            $('#' + slideId).find('.ad-slide')[0].classList.add('active');
+                                            $('#' + slideId).find('.ad-slide-bullet span')[0].classList.add('active');
+                                            $('#' + slideId).attr('currentslide', 0);
+                                        } else {
+                                            // console.log('any slide');
+                                            $('#' + slideId).attr('currentslide', i + 1);
+                                            $('#' + slideId).find('.ad-slide')[i + 1].classList.add('active');
+                                            $('#' + slideId).find('.ad-slide-bullet span')[i + 1].classList.add('active');
+                                        }
+
+                                        // console.log('current slide attr is:', $('#' + slideId).attr('currentslide'));
+                                    }, 100);
+
                                 } else {
-                                    // console.log('any slide');
-                                    $('#' + slideId).attr('currentslide', i + 1);
-                                    $('#' + slideId).find('.ad-slide')[i + 1].classList.add('active');
-                                    $('#' + slideId).find('.ad-slide-bullet span')[i + 1].classList.add('active');
+
+                                    // setTimeout(function () {
+
+                                    if ($('#' + slideId).attr('currentslide') == (slidesLength - 1)) {
+                                        // console.log('on the last slide');
+                                        $('#' + slideId).find('.ad-slide')[0].classList.add('active');
+                                        $('#' + slideId).find('.ad-slide-bullet span')[0].classList.add('active');
+                                        $('#' + slideId).attr('currentslide', 0);
+                                    } else {
+                                        // console.log('any slide');
+                                        $('#' + slideId).attr('currentslide', i + 1);
+                                        $('#' + slideId).find('.ad-slide')[i + 1].classList.add('active');
+                                        $('#' + slideId).find('.ad-slide-bullet span')[i + 1].classList.add('active');
+                                    }
+
+                                    // console.log('current slide attr is:', $('#' + slideId).attr('currentslide'));
+                                    // }, 300)
                                 }
 
-                                // console.log('current slide attr is:', $('#' + slideId).attr('currentslide'));
-                            }, 100);
 
-                        } else {
-
-                            // setTimeout(function () {
-
-                            if ($('#' + slideId).attr('currentslide') == (slidesLength - 1)) {
-                                // console.log('on the last slide');
-                                $('#' + slideId).find('.ad-slide')[0].classList.add('active');
-                                $('#' + slideId).find('.ad-slide-bullet span')[0].classList.add('active');
-                                $('#' + slideId).attr('currentslide', 0);
-                            } else {
-                                // console.log('any slide');
-                                $('#' + slideId).attr('currentslide', i + 1);
-                                $('#' + slideId).find('.ad-slide')[i + 1].classList.add('active');
-                                $('#' + slideId).find('.ad-slide-bullet span')[i + 1].classList.add('active');
+                                // console.log('end loop');
+                                // end the loop
+                                return true;
                             }
-
-                            // console.log('current slide attr is:', $('#' + slideId).attr('currentslide'));
-                            // }, 300)
                         }
 
-
-                        // console.log('end loop');
-                        // end the loop
-                        return true;
+                    } else {
+                        console.log('slider on pause');
                     }
                 }
 
@@ -201,22 +215,22 @@ $(document).ready(function () {
 
 
 
+    // console.log($('.ad-slide-group').not('[ad_constructed]'));
     function scanDOM4media() {
 
         // scan for ad-slide-group
-        if ($('.ad-slide-group').length) {
-            console.log('slider found');
+        if (wrapper.find('.ad-slide-group').not('[ad_constructed]').length !== 0) {
+            console.log('slider found', $('.ad-slide-group').not('[ad_constructed]').length);
             constructSlider();
-
         }
 
-        if ($('.ad-carousel').length) {
-            console.log('carousel foound');
+        if (wrapper.find('.ad-carousel').not('[ad_constructed]').length !== 0) {
+            console.log('carousel foound', $('.ad-carousel').not('[ad_constructed]').length);
             constructCarousel();
         }
 
-        if ($('.ad-video').length) {
-            console.log('video foound');
+        if (wrapper.find('.ad-video').not('[ad_constructed]').length !== 0) {
+            console.log('video foound', $('.ad-video').not('[ad_constructed]').length);
             constructVideo();
         }
 
@@ -225,12 +239,19 @@ $(document).ready(function () {
 
     scanDOM4media();
 
+    // Scan DOM Every 1s for unconstructed videos
+    setInterval(function () {
+        console.log('scannning for media');
+        scanDOM4media();
+
+    }, 3000);
+
 
 
     // Make Construct
 
     function constructSlider() {
-        $('.ad-slide-group').each(function (id) {
+        $('.ad-slide-group').not('[ad_constructed]').each(function (id) {
             $this = $(this);
 
             // fix height if responsive
@@ -322,11 +343,35 @@ $(document).ready(function () {
             currentSlide = 0;
             $this.attr('currentslide', 0);
 
+            //Check for spinner
+            let spinner = $this.find('.ad-spinner');
+
+            let spinnerDuration = duration < 5000 ? 1300 : duration / 2;
+            // remove loader in 3ms
+            if (spinner.length !== 0) {
+                console.log('spinner found', spinner);
+                setTimeout(function () {
+                    console.log('fade spinner');
+                    spinner.fadeOut('slow');
+                }, spinnerDuration);
+            }
+
+            // Check  for is-loading class
+            if ($this.hasClass('is-loading')) {
+                console.log('is-loading found', spinner);
+                setTimeout(function () {
+                    $this.removeClass('is-loading');
+                }, spinnerDuration);
+            }
+
+
             if (autoplay) {
                 autoSlide = new AutoSlide;
                 autoSlide.start(duration, slideId, effect, slidesLength);
             }
 
+            // Mark element as constructed',true);
+            $this.attr('ad_constructed', true);
         });
     }
 
@@ -439,9 +484,10 @@ $(document).ready(function () {
         prevNav = '<div  class="ad-carousel-previous hidden"><button class="ad-btn ad-md ad-flat ad-round ad-icon"><i class="fa fa-angle-left "></i></button></div>';
         nextNav = '<div  class="ad-carousel-next "><button class="ad-btn ad-md ad-flat ad-round ad-icon"><i class="fa fa-angle-right"></i></button></div>';
 
-        $('.ad-carousel').each(function () {
+        $('.ad-carousel').not('[ad_constructed]').each(function () {
+
             // $(this).addClass('is-loading');
-            content = $(this).html();
+            let content = $(this).html();
             $(this).html(openConstruct + content + closeConstruct);
             if ($(this).find('.ad-carousel-previous').length == 0) {
                 console.log('show navBTNS');
@@ -450,7 +496,24 @@ $(document).ready(function () {
             resizeCarousel($(this));
 
 
+            let spinner = $(this).find('.ad-spinner');
+
+            let spinnerDuration = duration < 5000 ? 1300 : duration / 2;
+            // remove loader in 3ms
+            if (spinner.length !== 0) {
+                console.log('spinner found', spinner);
+                setTimeout(function () {
+                    console.log('fade spinner');
+                    spinner.fadeOut('slow');
+                }, 500);
+            }
+
+
             // $(this).removeClass('is-loading');
+
+            // Mark as constructed
+            $(this).attr('ad_constructed', true);
+
 
         });
     }
@@ -606,7 +669,7 @@ $(document).ready(function () {
     // VIDEO PLAYER CONTROLS
 
     function constructVideo() {
-        $('.ad-video').each(function () {
+        $('.ad-video').not('[ad_constructed]').each(function () {
 
             // check for video title: create the video title div
             if ($(this)[0].hasAttribute('videoTitle')) {
@@ -682,6 +745,8 @@ $(document).ready(function () {
             let videoNuu = new videoPlayerUpdate();
             videoNuu.updateVideoTimer(videoPlayer[0], timer, seekbar);
 
+            // Mark as constructed
+            $(this).attr('ad_constructed', true);
         });
     }
 
@@ -960,7 +1025,8 @@ $(document).ready(function () {
 
     //get seeking the video.
     wrapper.on('click', '.ad-video input#seeker-control', function (e) {
-        e.stopPropagation();});
+        e.stopPropagation();
+    });
 
     wrapper.on('change', '.ad-video input#seeker-control', function (e) {
         e.stopPropagation();

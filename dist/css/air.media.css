@@ -5,6 +5,57 @@
 
 */
 /* BASE-- base, variables, mixins, normalize */
+.ad-spinner {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background-color: #222c37;
+  z-index: 60; }
+  .ad-spinner.whiteBG {
+    background-color: white;
+    color: #222c37; }
+  .ad-spinner.smokeBG {
+    background-color: whitesmoke;
+    color: #222c37; }
+  .ad-spinner.primBG {
+    background-color: #28d0ea;
+    color: white; }
+  .ad-spinner.pinkBG {
+    background-color: #ff0066;
+    color: white; }
+  .ad-spinner.tgreenBG {
+    background-color: #19e3b1;
+    color: #222c37; }
+  .ad-spinner:before {
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    content: '';
+    left: 50%;
+    margin-left: -55px;
+    top: 50%;
+    margin-top: -55px;
+    border-radius: 50%;
+    border: 8px solid  greenyellow;
+    -webkit-animation: lds-ripple 1s cubic-bezier(0, 0.2, 0.8, 1) infinite;
+    animation: lds-ripple 1s cubic-bezier(0, 0.2, 0.8, 1) infinite; }
+
+@-webkit-keyframes lds-ripple {
+  0% {
+    transform: scale(0.1);
+    opacity: 1; }
+  100% {
+    transform: scale(1);
+    opacity: 0; } }
+@keyframes lds-ripple {
+  0% {
+    transform: scale(0.1);
+    opacity: 1; }
+  100% {
+    transform: scale(1);
+    opacity: 0; } }
 @keyframes anim-fadeIn {
   from {
     opacity: 0; }
@@ -119,7 +170,7 @@
       position: relative;
       display: inline-block;
       vertical-align: top;
-      background-color: #222c37;
+      background-color: white;
       height: 5px;
       width: 20%;
       margin: 0 5px;

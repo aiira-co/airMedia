@@ -3,6 +3,7 @@
     padding: 0;
     display: block;
     width: 100%;
+    // min-width: 300px;
     height: auto;
     min-height: 100px;
     position: relative;
@@ -46,7 +47,7 @@
             position: relative;
             display: inline-block;
             vertical-align: top;
-            background-color: $dark;
+            background-color: white;
             height: 5px;
             width: 20%;
             margin: 0 5px;
