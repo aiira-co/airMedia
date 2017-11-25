@@ -8,28 +8,28 @@
     z-index: 60;
 
  
-     &.whiteBG{
+     &.bg-white{
         background-color:white;
         color:$dark;
     }
     
 
-    &.smokeBG{
+    &.bg-smoke{
         background-color:$smoke;
         color:$dark;
     }
 
-    &.primBG{
+    &.bg-prim{
         background-color:$prim;
         color:white;
     }
 
-    &.pinkBG{
+    &.bg-pink{
         background-color:$pink;
         color:white;
     }
 
-    &.tgreenBG{
+    &.bg-tgreen{
         background-color:$tGreen;
         color:$dark;
     }

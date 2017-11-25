@@ -165,16 +165,18 @@ $(document).ready(function () {
 
 
 
-    // VIDEO PLAYER CLASS
+    // MEDIA PLAYER CLASS
 
 
-    class videoPlayerUpdate {
+    class mediaPlayerUpdate {
 
         // Function to Update the video timmer and the seekbar
-        updateVideoTimer(vid, timer, seekbar) {
+        updateVideoTimer(vid, timer, seekbar, divSeekbar) {
+
 
             vid.onloadedmetadata = function () {
                 seekbar.max = vid.duration;
+
                 // timer.find('span.duration').html(((vid.duration * 0.0036)).toFixed(2).toString().replace('.', ':'));
 
                 var minutes = parseInt(vid.duration / 60, 10);
@@ -192,6 +194,8 @@ $(document).ready(function () {
             vid.ontimeupdate = function () {
                 // Display the current position of the video in a <p> element with id="demo"
                 seekbar.value = vid.currentTime;
+                divSeekbar.css('width', (vid.currentTime / vid.duration) * 100 + '%');
+                // console.log('vid.currentTime', (vid.currentTime / vid.duration) * 100);
                 var currentMin = parseInt(vid.currentTime / 60, 10);
                 var currentSec = ("0" + parseInt(vid.currentTime % 60)).slice(-2);
                 timer.find('span.currentTime').html(currentMin + ':' + currentSec);
@@ -200,6 +204,48 @@ $(document).ready(function () {
                 if (vid.currentTime >= vid.duration) {
                     // console.log('done');
                     let parent = timer.parents('.ad-video');
+                    let playBtnb = parent.find('button.play');
+                    playBtnb.find('i.fa').attr('class', '').addClass('fa fa-play');
+                    parent.attr('isplaying', 'false');
+                }
+
+            }
+        }
+
+        // Function to Update the audio timmer and the seekbar
+        updateAudioTimer(audio, timer, seekbar, divSeekbar) {
+
+
+            audio.onloadedmetadata = function () {
+                seekbar.max = audio.duration;
+
+                // timer.find('span.duration').html(((audio.duration * 0.0036)).toFixed(2).toString().replace('.', ':'));
+
+                var minutes = parseInt(audio.duration / 60, 10);
+                var seconds = ("0" + parseInt(audio.duration % 60)).slice(-2);
+                timer.find('span.duration').html(minutes + ':' + seconds);
+                // console.log('show minutes and secs', minutes, seconds);
+                // (Put the minutes and seconds in the display)
+
+                // clearInterval(i);
+
+                // console.log('duratoin is', videoPlayer[0].duration, seekbar.max);
+            };
+
+
+            audio.ontimeupdate = function () {
+                // Display the current position of the video in a <p> element with id="demo"
+                seekbar.value = audio.currentTime;
+                divSeekbar.css('width', (audio.currentTime / audio.duration) * 100 + '%');
+                // console.log('audio.currentTime', (audio.currentTime / audio.duration) * 100);
+                var currentMin = parseInt(audio.currentTime / 60, 10);
+                var currentSec = ("0" + parseInt(audio.currentTime % 60)).slice(-2);
+                timer.find('span.currentTime').html(currentMin + ':' + currentSec);
+
+                // timer.find('span.currentTime').html(((vid.currentTime * 0.0036)).toFixed(2).toString().replace('.', ':'));
+                if (audio.currentTime >= audio.duration) {
+                    // console.log('done');
+                    let parent = timer.parents('.ad-audio');
                     let playBtnb = parent.find('button.play');
                     playBtnb.find('i.fa').attr('class', '').addClass('fa fa-play');
                     parent.attr('isplaying', 'false');
@@ -220,18 +266,23 @@ $(document).ready(function () {
 
         // scan for ad-slide-group
         if (wrapper.find('.ad-slide-group').not('[ad_constructed]').length !== 0) {
-            console.log('slider found', $('.ad-slide-group').not('[ad_constructed]').length);
+            // console.log('slider found', $('.ad-slide-group').not('[ad_constructed]').length);
             constructSlider();
         }
 
         if (wrapper.find('.ad-carousel').not('[ad_constructed]').length !== 0) {
-            console.log('carousel foound', $('.ad-carousel').not('[ad_constructed]').length);
+            // console.log('carousel foound', $('.ad-carousel').not('[ad_constructed]').length);
             constructCarousel();
         }
 
         if (wrapper.find('.ad-video').not('[ad_constructed]').length !== 0) {
-            console.log('video foound', $('.ad-video').not('[ad_constructed]').length);
+            // console.log('video foound', $('.ad-video').not('[ad_constructed]').length);
             constructVideo();
+        }
+
+        if (wrapper.find('.ad-audio').not('[ad_constructed]').length !== 0) {
+            // console.log('audio foound', $('.ad-audio').not('[ad_constructed]').length);
+            constructAudio();
         }
 
 
@@ -241,7 +292,7 @@ $(document).ready(function () {
 
     // Scan DOM Every 1s for unconstructed videos
     setInterval(function () {
-        console.log('scannning for media');
+        // console.log('scannning for media');
         scanDOM4media();
 
     }, 3000);
@@ -264,7 +315,7 @@ $(document).ready(function () {
                 $this.css('height', height);
             }
             // setIds  for them
-            slideId = "slide_" + id;
+            slideId = "slide_" + id + Math.floor(Math.random() * (100 - 10) + 10);
             console.log('slide id of:', slideId);
             $this.attr('id', slideId);
 
@@ -322,8 +373,8 @@ $(document).ready(function () {
 
             if (showNav && $this.find('.ad-slide-previous').length == 0) {
 
-                prevNav = '<div  class="ad-slide-previous "><button class="ad-btn ad-lg ad-flat ad-round ad-icon no-margin"><i class="fa fa-angle-left "></i></button></div>';
-                nextNav = '<div  class="ad-slide-next "><button class="ad-btn ad-lg ad-flat ad-round ad-icon no-margin" style="margin-left:-8px;"><i class="fa fa-angle-right "></i></button></div>';
+                prevNav = '<div  class="ad-slide-previous "><button class="ad-btn ad-md ad-flat ad-round ad-icon no-margin"><i class="fa fa-angle-left "></i></button></div>';
+                nextNav = '<div  class="ad-slide-next "><button class="ad-btn ad-md ad-flat ad-round ad-icon no-margin" style="margin-left:-8px;"><i class="fa fa-angle-right "></i></button></div>';
                 $this.append(prevNav + nextNav);
 
             }
@@ -691,10 +742,14 @@ $(document).ready(function () {
                           <span class="ad-message-display">
                             Volume: 95%
                           </span>
-                          <div class="ad-controls">
+                          <span class="screen-button">
+                            <i class="fa fa-play fa-5x fa-stack"></i>
+                          </span>
+                          <div class="ad-controls" locked>
                             <input type="range" name="" min="0" value="0" class="" id="seeker-control">
+                            <div class="range-seeker"></div>
                             <div>
-                              <button class="ad-btn ad-icon clear ad-round play shine-tgreen">
+                              <button class="ad-btn ad-icon clear ad-round play ad-flat">
                                 <i class="fa fa-play"></i>
                               </button>
                               <span class="ad-timer">
@@ -705,18 +760,18 @@ $(document).ready(function () {
                               <span class="rFloat">
                                 <span class="volume-control">
             
-                                  <button class="ad-btn ad-round clear ad-icon shine-tgreen">
+                                  <button class="ad-btn ad-round clear ad-icon ad-flat">
                                     <i class="fa fa-volume-up"></i>
                                   </button>
                                   <div class="volume-range">
-                                    <input type="range" step="0.05" min="0" max="1" value="1" name="" id="volume-control">
+                                    <input type="range" step="0.05" min="0" max="1" value=".95" name="" id="volume-control">
                                   </div>
                                 </span>
-                                <button class="ad-btn ad-round clear ad-icon shine-tgreen fullscreen">
+                                <button class="ad-btn ad-round clear ad-icon ad-flat fullscreen">
                                   <i class="fa fa-clone"></i>
                                 </button>
             
-                                <button class="ad-btn ad-round clear ad-icon shine-tgreen">
+                                <button class="ad-btn ad-round clear ad-icon ad-flat">
                                   <i class="fa fa-cog"></i>
                                 </button>
                               </span>
@@ -740,10 +795,10 @@ $(document).ready(function () {
             // console.log($(videoPlayerId));
             // seekbar = $(this).find('input#seeker-control-' + videoPlayerId.replace('#', '') + '')[0];
             seekbar = $(this).find('input#seeker-control')[0];
-
+            divSeekbar = $(this).find('div.range-seeker');
             // console.log('create video player instance');
-            let videoNuu = new videoPlayerUpdate();
-            videoNuu.updateVideoTimer(videoPlayer[0], timer, seekbar);
+            let videoNuu = new mediaPlayerUpdate();
+            videoNuu.updateVideoTimer(videoPlayer[0], timer, seekbar, divSeekbar);
 
             // Mark as constructed
             $(this).attr('ad_constructed', true);
@@ -754,23 +809,44 @@ $(document).ready(function () {
     // Change the mode to remain when its clicked
     wrapper.on('click', '.ad-video', function (e) {
         // console.log('video parent clicked');
+        $(this).find('span.screen-button').fadeIn('slow');
 
         let videoPlayerId = $(this)[0].hasAttribute('videoId') ? '#' + $(this).attr('videoId') : '#video';
         let icon = $(this).find('button.play>i.fa');
+        let screenBTN = $(this).find('span.screen-button > i.fa');
         // console.log(parent.attr('isplaying'));
         if ($(this).attr('isplaying') == 'true') {
             $(videoPlayerId)[0].pause();
             $(this).attr('isplaying', 'false');
             icon.removeClass('fa-pause');
             icon.addClass('fa-play');
+
+            screenBTN.removeClass('fa-pause');
+            screenBTN.addClass('fa-play');
             // console.log('video paused');
         } else {
             $(videoPlayerId)[0].play();
             $(this).attr('isplaying', 'true');
             icon.removeClass('fa-play');
             icon.addClass('fa-pause');
+
+            screenBTN.removeClass('fa-play');
+            screenBTN.addClass('fa-pause');
             // console.log('video played');
+
+            // fade out the screen button
+            $(this).find('span.screen-button').fadeOut('slow');
         }
+
+        // remove the locked controls
+        if ($(this).find('div.ad-controls')[0].hasAttribute('locked')) {
+            console.log('hhas locked attribute');
+            $(this).find('div.ad-controls').removeAttr('locked');
+        } else {
+            console.log('doest have locked attribute');
+        }
+
+
 
     });
 
@@ -817,7 +893,12 @@ $(document).ready(function () {
 
 
         let parent = $(this).parents('.ad-video');
+
+        // fade IN the screen button
+        parent.find('span.screen-button').fadeIn('slow');
+
         let videoPlayerId = parent[0].hasAttribute('videoId') ? '#' + parent.attr('videoId') : '#video';
+        let screenBTN = parent.find('span.screen-button > i.fa');
         let icon = $(this).find('i.fa');
         // console.log(parent.attr('isplaying'));
         if (parent.attr('isplaying') == 'true') {
@@ -825,13 +906,23 @@ $(document).ready(function () {
             parent.attr('isplaying', 'false');
             icon.removeClass('fa-pause');
             icon.addClass('fa-play');
+
+
+            screenBTN.removeClass('fa-pause');
+            screenBTN.addClass('fa-play');
             // console.log('video paused');
         } else {
             $(videoPlayerId)[0].play();
             parent.attr('isplaying', 'true');
             icon.removeClass('fa-play');
             icon.addClass('fa-pause');
+
+            screenBTN.removeClass('fa-play');
+            screenBTN.addClass('fa-pause');
             // console.log('video played');
+
+            // fade out the screen button
+            parent.find('span.screen-button').fadeOut('slow');
         }
 
     });
@@ -1059,4 +1150,186 @@ $(document).ready(function () {
             video.msRequestFullscreen();
         }
     });
+
+
+
+
+    // AUDIO PLAYER CONTROLS
+
+    function constructAudio() {
+        $('.ad-audio').not('[ad_constructed]').each(function () {
+
+            // check for audio title: create the video title div
+            if ($(this)[0].hasAttribute('audioTitle')) {
+                 audioTitle = $(this).attr('audioTitle');
+            } else {
+                audioTitle = 'Audio Title';
+            }
+
+            if ($(this)[0].hasAttribute('artist')) {
+                 artist = $(this).attr('artist');
+                // $(this).append(videoTitleDIV);
+
+            } else {
+                artist = 'Artist';
+            }
+
+            if ($(this)[0].hasAttribute('poster')) {
+                let src = $(this).attr('poster');
+                 poster = '<img src="'+src+'" alt="">';
+
+            } else {
+                 poster = '<i class="fa fa-music "></i>';
+            }
+
+            audioPlayerId = $(this)[0].hasAttribute('audioId') ? '#' + $(this).attr('audioId') : '#audio';
+            let audioPlayer = $(this).find(audioPlayerId);
+            audioPlayer.removeAttr('controls');
+
+            //Create the Audio Controls
+
+            let audioControlHTML = `
+        
+        <input type="range" id="seeker-control">
+        <div class="range-seeker"></div>
+        <div class="ad-row">
+          <div class="ad-colx-6">
+            <div class="ad-avatar ad-flat">
+            <div class="ad-img bg-dark">
+                ` + poster + `
+            </div>
+              <h2>` + audioTitle + `</h2>
+              <p>` + artist + `</p>
+            </div>
+          </div>
+
+          <div class="ad-colx-6">
+            <div class="ad-controls">
+
+
+              <span class="">
+                <button class="ad-btn btn-default ad-sm ad-icon ad-round  play">
+                  <i class="fa fa-play"></i>
+                </button>
+                <span class="fixedSpan">
+                    <span class=" ad-timer">
+                    <!-- <p> -->
+                    <span class="currentTime">0:00</span>
+                    /
+                    <span class="duration">1:06</span>
+
+                    </span>
+                </span>
+                &nbsp;&nbsp;&nbsp;
+
+                <button class="ad-btn btn-default ad-sm  ad-icon ad-round loop">
+                  <i class="fa fa-refresh"></i>
+                </button>
+                <button class="ad-btn btn-default ad-sm   ad-icon ad-round volume">
+                  <i class="fa fa-volume-up"></i>
+                </button>
+              </span>
+            </div>
+          </div>
+        </div>
+        `;
+            $(this).append(audioControlHTML);
+            //check if video is at autoplay
+            if (audioPlayer[0].hasAttribute('autoplay')) {
+
+                $(this).attr('isplaying', 'true');
+            } else {
+                $(this).attr('isplaying', 'false');
+
+            }
+
+            // Set The Timmer currentTime / Duration
+            timer = $(this).find('span.ad-timer');
+
+
+            // console.log($(videoPlayerId));
+            // seekbar = $(this).find('input#seeker-control-' + videoPlayerId.replace('#', '') + '')[0];
+            seekbar = $(this).find('input#seeker-control')[0];
+            divSeekbar = $(this).find('div.range-seeker');
+            // console.log('create video player instance');
+            let audioNuu = new mediaPlayerUpdate();
+            audioNuu.updateAudioTimer(audioPlayer[0], timer, seekbar, divSeekbar);
+
+            // Mark as constructed
+            $(this).attr('ad_constructed', true);
+        });
+    }
+
+
+
+    // Audio PLAY BTN
+    wrapper.on('click', '.ad-audio button.play', function (e) {
+        e.stopPropagation();
+
+
+        let parent = $(this).parents('.ad-audio');
+
+
+        let audioPlayerId = parent[0].hasAttribute('audioId') ? '#' + parent.attr('audioId') : '#audio';
+        let icon = $(this).find('i.fa');
+        // console.log(parent.attr('isplaying'));
+        if (parent.attr('isplaying') == 'true') {
+            $(audioPlayerId)[0].pause();
+            parent.attr('isplaying', 'false');
+            icon.removeClass('fa-pause');
+            icon.addClass('fa-play');
+
+            // console.log('video paused');
+        } else {
+            $(audioPlayerId)[0].play();
+            parent.attr('isplaying', 'true');
+            icon.removeClass('fa-play');
+            icon.addClass('fa-pause');
+
+        }
+
+    });
+
+   // Audio LOOP BTN
+   wrapper.on('click', '.ad-audio button.loop', function (e) {
+    e.stopPropagation();
+
+
+    let parent = $(this).parents('.ad-audio');
+
+
+    let audioPlayerId = parent[0].hasAttribute('audioId') ? '#' + parent.attr('audioId') : '#audio';
+    let icon = $(this).find('i.fa');
+    // console.log(parent.attr('isplaying'));
+    if (!$(audioPlayerId)[0].hasAttribute('loop')) {
+        $(audioPlayerId).attr('loop','true');
+
+    } else {
+        $(audioPlayerId).attr('loop','false');
+        
+    }
+
+    // $(this).toggleClass('outline');
+    $(this).toggleClass('btn-dark');
+
+});
+
+
+
+
+
+    //get seeking the AUDIO.
+    wrapper.on('change', '.ad-audio input#seeker-control', function (e) {
+        e.stopPropagation();
+
+        var parent = $(this).parents('.ad-audio'); // get your audio
+        let audioPlayerId = parent[0].hasAttribute('audioId') ? '#' + parent.attr('audioId') : '#audio';
+        let audio = parent.find(audioPlayerId)[0];
+        audio.currentTime = $(this).val(); //update its time;
+        parent.find('span.currentTime').html(audio.currentTime);
+        // console.log('seeking');
+    });
+
+
+
 });

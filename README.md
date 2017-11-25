@@ -254,10 +254,24 @@ Adding airdesign's Video and Audio to your html is as simple as adding the video
 </div>
 
 <div class="ad-video" videoTitle="10 Tips of the day" videoId="post2123">
-    <video id="post2123" src="videos/post0777.mp4" controls></video>
+    <video id="post2123" src="videos/post2123.mp4" controls></video>
 </div>
 
 ```
+
+*   Change color theme of the video player from green(the default) to pink, yellow, blue, prim. just add the theme class to the .ad-video like so:
+
+```html
+
+ <div class="ad-video theme-pink">
+    <video id="video" src="videos/movie.mp4" controls></video>
+</div>
+
+```
+*   'theme-pink' for pink theme
+*   'theme-blue' for blue theme
+*   'theme-yellow' for yellow theme
+*   'theme-prim' for prim theme
 
 ###Features
 *   Hover over the video to display controls.
@@ -274,14 +288,100 @@ Adding airdesign's Video and Audio to your html is as simple as adding the video
 
 
 ###For Audio
-    Working on it.
-* expecting...
+*   Create a div with class '.ad-audio';
+*   In the element 'div.ad-audio' add the audio element with the 'controls' attribute.
+    *   Add an Id to the audio, eg myVideo.
+    *   Add an attribute 'audioId' to the div.ad-audio, setting the id of the audio element as its value.
+    *   This is useful if you want to display more than one audio player on the page.
+    *   By default, the id of the audio should be id='audio';
 
+*   [Optional] you can add the attribut 'audioTitle' to the div element.
+    *   The audioTitle attribute is used to display the title of the audio on the player.
+*   Done.!
+
+*   Without any audioId attribute. make sure to set the id of the audio element to 'audio'. use this if its the only audio on the webpage
 
 ```html
 
- <div class="ad-audio" audioTitle="Eagle's Wing" audioInfo="Hillsong" audioId="audio">
-    <audio id="audio" src="music/hil_023233.mp4" controls></audio>
+ <div class="ad-audio">
+    <audio id="audio" src="music/smith.mp3" controls></audio>
 </div>
 
 ```
+*   With  audioId attribute. Note: the id of the audio element is the same as the value of the audioId attribute. This way, your webpage can contain more than on audio.
+
+```html
+
+ <div class="ad-audio" audioId="smith">
+    <audio id="smith" src="music/smith.mp3" controls></audio>
+</div>
+
+```
+
+
+* With the audio title.
+
+```html
+
+ <div class="ad-audio" audioTitle="Desperate For You" audioId="smith">
+    <audio id="smith" src="music/smith.mp4" controls></audio>
+</div>
+
+```
+
+* With the artist atrribute.
+
+```html
+
+ <div class="ad-audio" artist="Micheal W. Smith" audioTitle="Desperate For You" audioId="smith">
+    <audio id="smith" src="music/smith.mp4" controls></audio>
+</div>
+
+```
+* With the 'poster' atrribute; this is used as the album art for the player
+
+```html
+
+ <div class="ad-audio" poster="images/art.jpg" artist="Micheal W. Smith" audioTitle="Desperate For You" audioId="smith">
+    <audio id="smith" src="music/smith.mp4" controls></audio>
+</div>
+
+```
+
+
+* Note that the audioId attribute of the div.ad-audio matches the audio id. For more than one audio see:
+
+```html
+
+ <div class="ad-audio" audioTitle="My Birthday" audioId="post0777">
+    <audio id="post0777" src="music/post0777.mp4" controls></audio>
+</div>
+
+<div class="ad-audio" audioTitle="10 Tips of the day" audioId="post2123">
+    <audio id="post2123" src="music/post2123.mp4" controls></audio>
+</div>
+
+```
+
+*   Change color theme of the audio player from green(the default) to pink, yellow, blue, prim. just add the theme class to the .ad-audio like so:
+
+```html
+
+ <div class="ad-audio theme-pink">
+    <audio id="audio" src="music/song.mp3" controls></audio>
+</div>
+
+```
+*   'theme-pink' for pink theme
+*   'theme-blue' for blue theme
+*   'theme-yellow' for yellow theme
+*   'theme-prim' for prim theme
+
+
+#NOTE
+The slider effects and themes for the media players are all written in css, hence they can easily be extended. eg: To add your own theme for the video player:
+*   Open the 'scss' folder in the the 'dist' folder
+*   In the components folder, open '_video.scss' file.
+*   At the latter part of the file you will find .theme-[color] classes there.
+*   Just duplicate on of the theme class and change it to your desired color.
+*   Note that its written in SCSS so you will need to compile it to CSS
