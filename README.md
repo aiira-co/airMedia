@@ -1,6 +1,7 @@
 # airMedia
-* Code Beautiful
-* For full documentation, visit http://airdesign.co.nf
+*   Code Beautiful
+*   For full documentation, visit http://airdesign.co.nf
+*   For Demo, go here http://airdesign.co.nf/air_media
 
 ## DEPENDENCY
 The airMedia library is dependent on the airDesign CSS framework. So please make sure you already have it installed.

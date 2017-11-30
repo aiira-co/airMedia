@@ -103,7 +103,7 @@ $(document).ready(function () {
                         }
 
                     } else {
-                        console.log('slider on pause');
+                        // console.log('slider on pause');
                     }
                 }
 
@@ -176,7 +176,7 @@ $(document).ready(function () {
 
             vid.onloadedmetadata = function () {
                 seekbar.max = vid.duration;
-
+                // console.log('video duration',vid.duration);
                 // timer.find('span.duration').html(((vid.duration * 0.0036)).toFixed(2).toString().replace('.', ':'));
 
                 var minutes = parseInt(vid.duration / 60, 10);
@@ -218,6 +218,12 @@ $(document).ready(function () {
 
             audio.onloadedmetadata = function () {
                 seekbar.max = audio.duration;
+                // console.log('duration', audio.duration);
+                // for the sake of firefox browser
+                // seekbar.attr('max', audio.duration);
+
+                // see time
+                // console.log('audio durationssssss',audio.duration);
 
                 // timer.find('span.duration').html(((audio.duration * 0.0036)).toFixed(2).toString().replace('.', ':'));
 
@@ -488,6 +494,25 @@ $(document).ready(function () {
             parent.attr('currentslide', currentSlide - 1);
         }
 
+
+
+        // Set and Remove pause attr
+        if (!parent[0].hasAttribute('pause')) {
+            parent.attr('pause', true);
+
+            // Set Duration
+            if (parent[0].hasAttribute('duration')) {
+                duration = parent.attr('duration') * 1000;
+            } else {
+                duration = 5000;
+            }
+
+            // console.log('pause added');
+            setTimeout(function () {
+                parent.removeAttr('pause');
+                // console.log('pause removed');
+            }, duration)
+        }
     });
 
 
@@ -522,6 +547,25 @@ $(document).ready(function () {
             parent.attr('currentslide', $next);
         }
 
+
+        // Set and Remove pause attr
+        if (!parent[0].hasAttribute('pause')) {
+            parent.attr('pause', true);
+
+            // Set Duration
+            if (parent[0].hasAttribute('duration')) {
+                duration = parent.attr('duration') * 1000;
+            } else {
+                duration = 5000;
+            }
+
+            // console.log('pause added');
+            setTimeout(function () {
+                parent.removeAttr('pause');
+                // console.log('pause removed');
+            }, duration)
+        }
+
     });
 
 
@@ -541,7 +585,7 @@ $(document).ready(function () {
             let content = $(this).html();
             $(this).html(openConstruct + content + closeConstruct);
             if ($(this).find('.ad-carousel-previous').length == 0) {
-                console.log('show navBTNS');
+                // console.log('show navBTNS');
                 $(this).append(prevNav + nextNav);
             }
             resizeCarousel($(this));
@@ -552,9 +596,9 @@ $(document).ready(function () {
             let spinnerDuration = duration < 5000 ? 1300 : duration / 2;
             // remove loader in 3ms
             if (spinner.length !== 0) {
-                console.log('spinner found', spinner);
+                // console.log('spinner found', spinner);
                 setTimeout(function () {
-                    console.log('fade spinner');
+                    // console.log('fade spinner');
                     spinner.fadeOut('slow');
                 }, 500);
             }
@@ -580,26 +624,26 @@ $(document).ready(function () {
             item = $this.find('.ad-carousel-item');
         }
         $this.height(item.height() + 5);
-        console.log('items is sanakjcbndjcscd', carousel.attr('items'));
+        // console.log('items is sanakjcbndjcscd', carousel.attr('items'));
         container = $this.find('.carousel-overflow');
 
 
         // Calculate the number of items to show
         numberOfItemstoShow = $this.width() / item.width();
         visibleItems = Math.round(numberOfItemstoShow) * item.width() > $this.width() ? Math.round(numberOfItemstoShow) - 1 : Math.round(numberOfItemstoShow);
-        console.log('number to shopwwwwwwwwwwwww', visibleItems);
+        // console.log('number to shopwwwwwwwwwwwww', visibleItems);
 
         // Calculate the marign-right of the items, base on the items to show and the ad-carousel width
         leftSpace = $this.width() - (visibleItems * item.width());
         margin = leftSpace / visibleItems
-        console.log('space, margin isssssssss', leftSpace, margin, 2.5.toFixed());
+        // console.log('space, margin isssssssss', leftSpace, margin, 2.5.toFixed());
 
         item.css('margin', '0 ' + (margin / 2) + 'px');
-        console.log((margin) + 'px');
+        // console.log((margin) + 'px');
 
         containerWidth = (item.width() * item.length) + item.width() * margin;
         container.css('width', containerWidth);
-        console.log('container withggggggggggggg', containerWidth, $this.width());
+        // console.log('container withggggggggggggg', containerWidth, $this.width());
 
 
         // create emoveby
@@ -840,10 +884,10 @@ $(document).ready(function () {
 
         // remove the locked controls
         if ($(this).find('div.ad-controls')[0].hasAttribute('locked')) {
-            console.log('hhas locked attribute');
+            // console.log('hhas locked attribute');
             $(this).find('div.ad-controls').removeAttr('locked');
         } else {
-            console.log('doest have locked attribute');
+            // console.log('doest have locked attribute');
         }
 
 
@@ -1161,13 +1205,13 @@ $(document).ready(function () {
 
             // check for audio title: create the video title div
             if ($(this)[0].hasAttribute('audioTitle')) {
-                 audioTitle = $(this).attr('audioTitle');
+                audioTitle = $(this).attr('audioTitle');
             } else {
                 audioTitle = 'Audio Title';
             }
 
             if ($(this)[0].hasAttribute('artist')) {
-                 artist = $(this).attr('artist');
+                artist = $(this).attr('artist');
                 // $(this).append(videoTitleDIV);
 
             } else {
@@ -1176,10 +1220,10 @@ $(document).ready(function () {
 
             if ($(this)[0].hasAttribute('poster')) {
                 let src = $(this).attr('poster');
-                 poster = '<img src="'+src+'" alt="">';
+                poster = '<img src="' + src + '" alt="">';
 
             } else {
-                 poster = '<i class="fa fa-music "></i>';
+                poster = '<i class="fa fa-music "></i>';
             }
 
             audioPlayerId = $(this)[0].hasAttribute('audioId') ? '#' + $(this).attr('audioId') : '#audio';
@@ -1290,29 +1334,29 @@ $(document).ready(function () {
 
     });
 
-   // Audio LOOP BTN
-   wrapper.on('click', '.ad-audio button.loop', function (e) {
-    e.stopPropagation();
+    // Audio LOOP BTN
+    wrapper.on('click', '.ad-audio button.loop', function (e) {
+        e.stopPropagation();
 
 
-    let parent = $(this).parents('.ad-audio');
+        let parent = $(this).parents('.ad-audio');
 
 
-    let audioPlayerId = parent[0].hasAttribute('audioId') ? '#' + parent.attr('audioId') : '#audio';
-    let icon = $(this).find('i.fa');
-    // console.log(parent.attr('isplaying'));
-    if (!$(audioPlayerId)[0].hasAttribute('loop')) {
-        $(audioPlayerId).attr('loop','true');
+        let audioPlayerId = parent[0].hasAttribute('audioId') ? '#' + parent.attr('audioId') : '#audio';
+        let icon = $(this).find('i.fa');
+        // console.log(parent.attr('isplaying'));
+        if (!$(audioPlayerId)[0].hasAttribute('loop')) {
+            $(audioPlayerId).attr('loop', 'true');
 
-    } else {
-        $(audioPlayerId).attr('loop','false');
-        
-    }
+        } else {
+            $(audioPlayerId).attr('loop', 'false');
 
-    // $(this).toggleClass('outline');
-    $(this).toggleClass('btn-dark');
+        }
 
-});
+        // $(this).toggleClass('outline');
+        $(this).toggleClass('btn-dark');
+
+    });
 
 
 

@@ -6,8 +6,6 @@
     background-color: $dark;
     overflow: hidden;
     color: white;
-
-   
     video {
         width: 100%;
     }
@@ -23,6 +21,7 @@
         margin-top: -50px;
         margin-left: -50px;
         text-align: center; // line-height: 100px;
+        
         i.fa-play {
             // background-color:rgba(255, 0, 0, 0.329);
             margin-left: -11px;
@@ -38,11 +37,9 @@
     }
     &:hover {
         .ad-controls {
-            bottom: 0;
-            -moz-transform: translateY(-20px);
+            bottom: 0; // -moz-transform: translateY(-20px);
             &[locked] {
-                bottom: -36px;
-                -moz-transform: translateY(0);
+                bottom: -36px; // -moz-transform: translateY(0);
             }
             &.fixedmode {
                 opacity: 1;
@@ -90,21 +87,25 @@
             bottom: 0;
             opacity: 0;
         }
-        
-        &:after{
+        &:after {
             position: absolute;
             display: block;
-            left:0;
-            top:0;
-            right:0;
-            height:4px;
+            left: 0;
+            top: 0;
+            right: 0;
+            height: 4px;
             width: 100%;
             background-color: $dark;
             content: '';
             z-index: 0;
-    
         }
-    
+
+        span.ad-timer{
+            display: inline-block;
+            -moz-transform: translateY(-16px);
+            // transform:translatey(10);
+            // background-color: red;
+        }
         div.range-seeker {
             height: 4px;
             background-color: $tGreen;
@@ -116,14 +117,13 @@
             z-index: 50;
             user-select: none;
         }
-
         &>input[type="range"] {
             display: block;
             width: 100%;
             margin: 0; // -webkit-appearance: none;
+            -moz-transform: translateY(-8px);
         } // range design
         input[type="range"] {
-
             &::-webkit-slider-runnable-track {
                 background-color: $tGreen;
             }
@@ -170,8 +170,7 @@
             }
             &#seeker-control {
                 position: relative;
-                z-index: 70;
-                //  Chrome
+                z-index: 70; //  Chrome
                 // &::-webkit-slider-runnable-track {
                 //     background-color: $dark;
                 // }
@@ -199,6 +198,7 @@
         }
         button.ad-btn {
             margin-top: 3px;
+            -moz-transform: translateY(-16px);
             &.outline.ad-flat {
                 color: white;
             }
