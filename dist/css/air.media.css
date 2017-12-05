@@ -1,7 +1,7 @@
 /*
    ** airMedia
    ** Author: Kofi Owusu-Afriyie
-   **Version: beta 0.5.1 
+   **Version: beta 1.0.0 
 
 */
 /* BASE-- base, variables, mixins, normalize */
@@ -294,11 +294,11 @@
       -o-transition: all 0.3s ease-out 0s;
       transition: all 0.3s ease-out 0s; }
       .ad-carousel .carousel-container .carousel-overflow .ad-carousel-item {
-        width: 250px;
-        height: 200px;
+        width: 220px;
+        min-height: 220px;
         padding: 0;
         margin: 0;
-        background-color: rgba(0, 0, 255, 0.336);
+        background-color: white;
         display: inline-block;
         vertical-align: top; }
   .ad-carousel .ad-carousel-previous {
@@ -354,6 +354,24 @@
   background-color: #222c37;
   overflow: hidden;
   color: white; }
+  .ad-video.full-mode {
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 999; }
+  .ad-video.mini-mode {
+    position: fixed;
+    right: 16px;
+    bottom: 16px;
+    width: 320px;
+    height: 180px;
+    z-index: 999;
+    border-radius: 5px;
+    box-shadow: 0 0 5px 0px rgba(0, 0, 0, 0.377); }
   .ad-video video {
     width: 100%; }
   .ad-video span.screen-button {
@@ -509,6 +527,9 @@
       -moz-transform: translateY(-16px); }
       .ad-video .ad-controls button.ad-btn.outline.ad-flat {
         color: white; }
+      .ad-video .ad-controls button.ad-btn.hidden {
+        visibility: collapse;
+        display: none; }
     .ad-video .ad-controls .volume-control {
       position: relative; }
       .ad-video .ad-controls .volume-control .volume-range {
@@ -611,6 +632,11 @@
     background-color: #222c37;
     content: '';
     z-index: 0; }
+  .ad-audio .audio-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr; }
+    .ad-audio .audio-grid .controls {
+      justify-self: end; }
   .ad-audio div.range-seeker {
     position: absolute;
     display: block;

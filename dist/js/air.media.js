@@ -593,7 +593,7 @@ $(document).ready(function () {
 
             let spinner = $(this).find('.ad-spinner');
 
-            let spinnerDuration = duration < 5000 ? 1300 : duration / 2;
+            // let spinnerDuration = duration < 5000 ? 1300 : duration / 2;
             // remove loader in 3ms
             if (spinner.length !== 0) {
                 // console.log('spinner found', spinner);
@@ -692,7 +692,7 @@ $(document).ready(function () {
         // }
         // margin = 2 * item.attr('style').split(' ')[2].replace('px;', '');
         // moveBy = item.width() + margin;
-        console.log(parent.attr('moveby'));
+        // console.log(parent.attr('moveby'));
         // math them out. get hidden, then see if the visible items plus hidden is total
 
         var lHiddenItems = parseInt(parent.attr('caurosel_hidden-items'));
@@ -707,7 +707,7 @@ $(document).ready(function () {
 
 
         if ((factor == -1) && (caltems == totalItems)) {
-            console.log('maximum reached, so dont move again, or hide it. Hidden, Visible, Total', lHiddenItems, visibleItems, totalItems);
+            // console.log('maximum reached, so dont move again, or hide it. Hidden, Visible, Total', lHiddenItems, visibleItems, totalItems);
         } else {
 
             if (factor === -1) {
@@ -721,7 +721,7 @@ $(document).ready(function () {
                     updateHidden = lHiddenItems - 1;
                 } else {
                     //check if its zero
-                    console.log('nothing to move previous to');
+                    // console.log('nothing to move previous to');
                     calMove = 0;
                     updateHidden = lHiddenItems;
                 }
@@ -731,7 +731,7 @@ $(document).ready(function () {
                 'margin-left': calMove
             }, 300, 'linear');
 
-            console.log('Hidden, Visible, Plus, Total', lHiddenItems, visibleItems, caltems, totalItems);
+            // console.log('Hidden, Visible, Plus, Total', lHiddenItems, visibleItems, caltems, totalItems);
             //update the hiddenItemsI
             parent.attr('caurosel_hidden-items', updateHidden);
 
@@ -811,12 +811,17 @@ $(document).ready(function () {
                                     <input type="range" step="0.05" min="0" max="1" value=".95" name="" id="volume-control">
                                   </div>
                                 </span>
+                                <button class="ad-btn ad-round clear ad-icon ad-flat minimode">
+                                    <i class="fa fa-square-o"></i>
+                                </button>
+
                                 <button class="ad-btn ad-round clear ad-icon ad-flat fullscreen">
                                   <i class="fa fa-clone"></i>
                                 </button>
-            
+
+
                                 <button class="ad-btn ad-round clear ad-icon ad-flat">
-                                  <i class="fa fa-cog"></i>
+                                  <i class="fa fa-sun-o"></i>
                                 </button>
                               </span>
                             </div>
@@ -1177,25 +1182,71 @@ $(document).ready(function () {
 
 
     // Get Fullscreen
-    wrapper.on('click', '.ad-video .fullscreen', function (e) {
+    wrapper.on('click', '.ad-video button.fullscreen', function (e) {
         e.stopPropagation();
 
         let parent = $(this).parents('.ad-video');
-        let videoPlayerId = parent[0].hasAttribute('videoId') ? '#' + parent.attr('videoId') : '#video';
-        video = parent.find(videoPlayerId)[0];
 
-        if (video.requestFullscreen) {
-            video.requestFullscreen();
-        } else if (video.webkitRequestFullscreen) {
-            video.webkitRequestFullscreen();
-        } else if (video.mozRequestFullScreen) {
-            video.mozRequestFullScreen();
-        } else if (video.msRequestFullscreen) {
-            video.msRequestFullscreen();
+        if (
+            document.fullscreenElement ||
+            document.webkitFullscreenElement ||
+            document.mozFullScreenElement ||
+            document.msFullscreenElement
+        ) {
+            if (document.exitFullscreen) {
+                document.exitFullscreen();
+            } else if (document.mozCancelFullScreen) {
+                document.mozCancelFullScreen();
+            } else if (document.webkitExitFullscreen) {
+                document.webkitExitFullscreen();
+            } else if (document.msExitFullscreen) {
+                document.msExitFullscreen();
+            }
+
+            //exit fullscreen
+            // parent.removeClass('full-mode');
+            parent.find('button.minimode').removeClass('hidden');
+        } else {
+            element = parent.get(0);
+            if (element.requestFullscreen) {
+                element.requestFullscreen();
+            } else if (element.mozRequestFullScreen) {
+                element.mozRequestFullScreen();
+            } else if (element.webkitRequestFullscreen) {
+                element.webkitRequestFullscreen(Element.ALLOW_KEYBOARD_INPUT);
+            } else if (element.msRequestFullscreen) {
+                element.msRequestFullscreen();
+            }
+
+            // enter fullscreen
+            // parent.addClass('full-mode');
+            parent.find('button.minimode').addClass('hidden');
+        }
+
+
+    });
+
+    // catch esc btn clicked
+
+    $('.ad-video').keydown(function (e) {
+        if (e.keyCode == 27) {
+            if ($('.ad-video .fullscreen').length != 0) {
+                $('.ad-video .fullscreen').find('button.minimode').removeClass('hidden');
+                // $('.ad-video .fullscreen').removeClass('fullscreen');
+            }
+
+            // console.log('esc clicked');
         }
     });
 
 
+    //mini mode
+    wrapper.on('click', '.ad-video .minimode', function (e) {
+        e.stopPropagation();
+        let parent = $(this).parents('.ad-video');
+        parent.toggleClass('mini-mode');
+        parent.find('button.fullscreen').toggleClass('hidden');
+    });
 
 
     // AUDIO PLAYER CONTROLS
@@ -1236,8 +1287,8 @@ $(document).ready(function () {
         
         <input type="range" id="seeker-control">
         <div class="range-seeker"></div>
-        <div class="ad-row">
-          <div class="ad-colx-6">
+        <div class="audio-grid">
+          <div class="art">
             <div class="ad-avatar ad-flat">
             <div class="ad-img bg-dark">
                 ` + poster + `
@@ -1247,11 +1298,11 @@ $(document).ready(function () {
             </div>
           </div>
 
-          <div class="ad-colx-6">
+          <div class="">
             <div class="ad-controls">
 
 
-              <span class="">
+              <span class="controls">
                 <button class="ad-btn btn-default ad-sm ad-icon ad-round  play">
                   <i class="fa fa-play"></i>
                 </button>
@@ -1269,9 +1320,7 @@ $(document).ready(function () {
                 <button class="ad-btn btn-default ad-sm  ad-icon ad-round loop">
                   <i class="fa fa-refresh"></i>
                 </button>
-                <button class="ad-btn btn-default ad-sm   ad-icon ad-round volume">
-                  <i class="fa fa-volume-up"></i>
-                </button>
+                
               </span>
             </div>
           </div>

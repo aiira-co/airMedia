@@ -6,6 +6,33 @@
     background-color: $dark;
     overflow: hidden;
     color: white;
+    
+    &.full-mode{
+        position: fixed;
+        left:0;
+        right:0;
+        top:0;
+        bottom:0;
+
+        width: 100vw;
+        height: 100vh;
+        z-index: 999;
+    }
+
+    &.mini-mode{
+        position: fixed;
+        // left:0;
+        right:16px;
+        // top:0;
+        bottom:16px;
+
+        width: 320px;
+        height: 180px;
+        z-index: 999;
+        border-radius: 5px;
+        box-shadow: 0 0 5px 0px rgba(0, 0, 0, 0.377);
+    }
+
     video {
         width: 100%;
     }
@@ -201,6 +228,11 @@
             -moz-transform: translateY(-16px);
             &.outline.ad-flat {
                 color: white;
+            }
+
+            &.hidden{
+                visibility: collapse;
+                display: none;
             }
         }
         .volume-control {
