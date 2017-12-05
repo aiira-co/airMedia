@@ -21,6 +21,18 @@
         content: '';
         z-index: 0;
     }
+
+
+    .audio-grid{
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+
+        .controls{
+            justify-self: end;
+        }
+    }
+
+
     div.range-seeker {
         position: absolute;
         display: block;
