@@ -6,33 +6,26 @@
     background-color: $dark;
     overflow: hidden;
     color: white;
-    
-    &.full-mode{
+    &.full-mode {
         position: fixed;
-        left:0;
-        right:0;
-        top:0;
-        bottom:0;
-
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
         width: 100vw;
         height: 100vh;
         z-index: 999;
     }
-
-    &.mini-mode{
-        position: fixed;
-        // left:0;
-        right:16px;
-        // top:0;
-        bottom:16px;
-
+    &.mini-mode {
+        position: fixed; // left:0;
+        right: 16px; // top:0;
+        bottom: 16px;
         width: 320px;
         height: 180px;
         z-index: 999;
         border-radius: 5px;
         box-shadow: 0 0 5px 0px rgba(0, 0, 0, 0.377);
     }
-
     video {
         width: 100%;
     }
@@ -48,7 +41,6 @@
         margin-top: -50px;
         margin-left: -50px;
         text-align: center; // line-height: 100px;
-        
         i.fa-play {
             // background-color:rgba(255, 0, 0, 0.329);
             margin-left: -11px;
@@ -126,11 +118,9 @@
             content: '';
             z-index: 0;
         }
-
-        span.ad-timer{
+        span.ad-timer {
             display: inline-block;
-            -moz-transform: translateY(-16px);
-            // transform:translatey(10);
+            -moz-transform: translateY(-16px); // transform:translatey(10);
             // background-color: red;
         }
         div.range-seeker {
@@ -229,8 +219,7 @@
             &.outline.ad-flat {
                 color: white;
             }
-
-            &.hidden{
+            &.hidden {
                 visibility: collapse;
                 display: none;
             }
@@ -346,6 +335,138 @@
                         @include shadow(0, 0, 10px, 5px, $prim);
                     }
                 }
+            }
+        }
+    }
+}
+
+.ad-video-remix {
+    display: block;
+    width: 100%;
+    height: auto;
+    position: relative;
+    background-color: $dark;
+    overflow: hidden;
+    color: white;
+    video {
+        width: 100%;
+    }
+    .ad-controls {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0; // background-color:rgba(0, 255, 149, 0.493);
+        .ad-header {
+            opacity: 0;
+            @include transEase(.35s);
+            &:hover {
+                opacity: 1;
+            }
+        }
+        .ad-grid {
+            display: grid;
+            grid-template-columns: 100px auto 100px;
+            align-items: center;
+            background-color: rgba(0, 0, 0, 0.5);
+            margin: 0 5%;
+            border-radius: 5px;
+            position: absolute;
+            bottom: 16px;
+            left: 0;
+            right: 0;
+            height: 37px;
+            opacity: 0;
+            @include transEase(.35s);
+            &:hover {
+                opacity: 1;
+            }
+            &.show-controls {
+                opacity: 1;
+            }
+            div {
+                padding: 0;
+                margin: 0;
+                button.ad-btn {
+                    margin-top: 2px;
+                }
+                &:nth-child(3) {
+                    justify-self: end;
+                }
+            }
+        }
+    }
+    input[type="range"] {
+        &::-webkit-slider-runnable-track {
+            background-color: $tGreen;
+        }
+        &::-webkit-slider-thumb {
+            width: 20px;
+            height: 10px;
+            margin-top: -3.525px;
+            border-color: transparent; //    @include scale(.3);
+            @include shadow(0, 0, 10px, 5px, $tGreen);
+            opacity: 1;
+            &:hover {
+                background-color: white;
+                border-color: rgba($dark, .2);
+                opacity: 1;
+            }
+        }
+        &::-moz-range-track {
+            background-color: $tGreen;
+        }
+        &::-moz-range-thumb {
+            width: 20px;
+            height: 10px;
+            margin-top: -3.525px;
+            border-color: transparent; //    @include scale(.3);
+            @include shadow(0, 0, 10px, 5px, $tGreen);
+            opacity: 1;
+            &:focus {
+                opacity: 1;
+            }
+        }
+        &::-ms-fill-lower {
+            background: lighten($tGreen, 10);
+        }
+        &::-ms-fill-upper {
+            background: lighten($tGreen, 15);
+        }
+        &::-ms-thumb {
+            width: 20px;
+            height: 10px;
+            margin-top: -3.525px;
+            border-color: transparent; //    @include scale(.3);
+            @include shadow(0, 0, 10px, 5px, $tGreen);
+            opacity: 1;
+        }
+    }
+    &.ad-block {
+        .ad-controls {
+            .ad-grid {
+                border-radius: 0;
+            }
+        }
+    }
+    &.ad-round {
+        .ad-controls {
+            .ad-grid {
+                border-radius: 40px;
+            }
+        }
+    }
+    &.ad-clear {
+        .ad-controls {
+            .ad-grid {
+                background: transparent;
+            }
+        }
+    }
+    &.ad-full {
+        .ad-controls {
+            .ad-grid {
+                margin: 0 !important;
             }
         }
     }

@@ -7,26 +7,38 @@
     margin: 0;
     padding: 0;
     margin-top: -3px;
-    height: 72px;
+    height: 160px;
     overflow: hidden;
-    &:after {
-        position: absolute;
-        display: block;
-        left: 0;
-        top: 0;
-        right: 0;
-        height: 8px;
-        width: 100%;
-        background-color: $dark;
-        content: '';
-        z-index: 0;
-    }
+    // &:after {
+    //     position: absolute;
+    //     display: block;
+    //     left: 0;
+    //     top: 0;
+    //     right: 0;
+    //     height: 8px;
+    //     width: 100%;
+    //     background-color: $dark;
+    //     content: '';
+    //     z-index: 0;
+    // }
 
 
     .audio-grid{
         display: grid;
-        grid-template-columns: 2fr 1fr;
+        grid-template-columns: 160px auto;
+        img{
+            height: 160px;
+        }
 
+        div{
+            overflow:hidden;
+            text-align: center;
+
+            h2{
+                margin:5px;
+                margin-top: 10px;
+            }
+        }
         .controls{
             justify-self: end;
         }
@@ -34,26 +46,71 @@
 
 
     div.range-seeker {
-        position: absolute;
+        // position: absolute;
         display: block;
         left: 0;
         top: 0;
         right: 0;
-        height: 8px;
+        height: 4px;
         width: 0;
         z-index: 50;
         border-right: 4px solid white;
         background-color: $tGreen;
         user-select: none;
     }
+
+    div.range-container{
+        display: block;
+        margin:10px 15%;
+        background-color:black;
+        height: 4px;
+        overflow: hidden;
+        border-radius: 2px;
+
+    }
+
+    div.top-controls{
+        margin:0 15%;
+        margin-top:-10px;
+        // background-color: red;
+        padding:0;
+        // height:10px;
+        text-align: left;
+
+        button{
+            margin-top:-10px;
+
+            
+        }
+
+    }
+    div.clearfix{
+        margin:0;
+        padding:0;
+        height:0;
+        background-color:red;
+        position:relative;
+        display: none;
+    }
+
+    button.play{
+        position: relative;
+        top:-30px;
+
+    }
+
+    div.art{
+        font-size: 30px;
+        line-height: 160px;
+    }
     input {
-        position: absolute;
+        // position: absolute;
         left: 0;
         top: 0;
         right: 0;
         width: 100%;
         display: block;
-        margin-top: 4px;
+        margin-top: -4px;
         z-index: 70;
         opacity: 0;
 

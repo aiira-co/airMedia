@@ -176,7 +176,7 @@ $(document).ready(function () {
 
             vid.onloadedmetadata = function () {
                 seekbar.max = vid.duration;
-                // console.log('video duration',vid.duration);
+                console.log('video duration', vid.duration);
                 // timer.find('span.duration').html(((vid.duration * 0.0036)).toFixed(2).toString().replace('.', ':'));
 
                 var minutes = parseInt(vid.duration / 60, 10);
@@ -267,27 +267,32 @@ $(document).ready(function () {
 
 
 
-    // console.log($('.ad-slide-group').not('[ad_constructed]'));
+    // console.log($('.ad-slide-group').not('[_adConstructed]'));
     function scanDOM4media() {
 
         // scan for ad-slide-group
-        if (wrapper.find('.ad-slide-group').not('[ad_constructed]').length !== 0) {
-            // console.log('slider found', $('.ad-slide-group').not('[ad_constructed]').length);
+        if (wrapper.find('.ad-slide-group').not('[_adConstructed]').length !== 0) {
+            // console.log('slider found', $('.ad-slide-group').not('[_adConstructed]').length);
             constructSlider();
         }
 
-        if (wrapper.find('.ad-carousel').not('[ad_constructed]').length !== 0) {
-            // console.log('carousel foound', $('.ad-carousel').not('[ad_constructed]').length);
+        if (wrapper.find('.ad-carousel').not('[_adConstructed]').length !== 0) {
+            // console.log('carousel foound', $('.ad-carousel').not('[_adConstructed]').length);
             constructCarousel();
         }
 
-        if (wrapper.find('.ad-video').not('[ad_constructed]').length !== 0) {
-            // console.log('video foound', $('.ad-video').not('[ad_constructed]').length);
+        if (wrapper.find('.ad-video').not('[_adConstructed]').length !== 0) {
+            // console.log('video foound', $('.ad-video').not('[_adConstructed]').length);
             constructVideo();
         }
 
-        if (wrapper.find('.ad-audio').not('[ad_constructed]').length !== 0) {
-            // console.log('audio foound', $('.ad-audio').not('[ad_constructed]').length);
+        if (wrapper.find('.ad-video-remix').not('[_adConstructed]').length !== 0) {
+            console.log('video foound', $('.ad-video-remix').not('[_adConstructed]').length);
+            constructVideoRemix();
+        }
+
+        if (wrapper.find('.ad-audio').not('[_adConstructed]').length !== 0) {
+            // console.log('audio foound', $('.ad-audio').not('[_adConstructed]').length);
             constructAudio();
         }
 
@@ -308,7 +313,7 @@ $(document).ready(function () {
     // Make Construct
 
     function constructSlider() {
-        $('.ad-slide-group').not('[ad_constructed]').each(function (id) {
+        $('.ad-slide-group').not('[_adConstructed]').each(function (id) {
             $this = $(this);
 
             // fix height if responsive
@@ -428,7 +433,7 @@ $(document).ready(function () {
             }
 
             // Mark element as constructed',true);
-            $this.attr('ad_constructed', true);
+            $this.attr('_adConstructed', true);
         });
     }
 
@@ -579,11 +584,29 @@ $(document).ready(function () {
         prevNav = '<div  class="ad-carousel-previous hidden"><button class="ad-btn ad-md ad-flat ad-round ad-icon"><i class="fa fa-angle-left "></i></button></div>';
         nextNav = '<div  class="ad-carousel-next "><button class="ad-btn ad-md ad-flat ad-round ad-icon"><i class="fa fa-angle-right"></i></button></div>';
 
-        $('.ad-carousel').not('[ad_constructed]').each(function () {
+        $('.ad-carousel').not('[_adConstructed]').each(function () {
+
+             // First check if it has the caursol-overflow, then skip wrap
+             if($(this).find('div.carousel-overflow').length == 0){
+
+                if ($(this)[0].hasAttribute('items')) {
+                    console.log('items found');
+                    wrapped = $(this).find('.' + $(this).attr('items') + '').wrapAll('<div class="carousel-overflow"></div>');
+                } else {
+                    console.log('items Not found, using default');
+                    wrapped = $(this).find('.ad-carousel-item').wrapAll("<div class='carousel-overflow'></div>");
+                }
+    
+                $(this).find('div.carousel-overflow').wrap("<div class='carousel-container'></div>");
+            }
+            // console.log('element wrapped',wrapped);
+            // console.log('overflow or wrapper',$(this).find('div.carousel-overflow'));
 
             // $(this).addClass('is-loading');
-            let content = $(this).html();
-            $(this).html(openConstruct + content + closeConstruct);
+            // let content = $(this).html();
+            // $(this).html(openConstruct + content + closeConstruct);
+            // $(this).prepend('<p>Yooo');
+            // instead of taking and putting back, append and prepend
             if ($(this).find('.ad-carousel-previous').length == 0) {
                 // console.log('show navBTNS');
                 $(this).append(prevNav + nextNav);
@@ -607,7 +630,7 @@ $(document).ready(function () {
             // $(this).removeClass('is-loading');
 
             // Mark as constructed
-            $(this).attr('ad_constructed', true);
+            $(this).attr('_adConstructed', true);
 
 
         });
@@ -764,7 +787,7 @@ $(document).ready(function () {
     // VIDEO PLAYER CONTROLS
 
     function constructVideo() {
-        $('.ad-video').not('[ad_constructed]').each(function () {
+        $('.ad-video').not('[_adConstructed]').each(function () {
 
             // check for video title: create the video title div
             if ($(this)[0].hasAttribute('videoTitle')) {
@@ -779,6 +802,18 @@ $(document).ready(function () {
             let videoPlayer = $(this).find(videoPlayerId);
             videoPlayer.removeAttr('controls');
 
+
+            //Check for autoplay
+            if (videoPlayer[0].hasAttribute('autoplay')) {
+                var autoplay = true;
+                playBTN = 'pause';
+                $(this).attr('isplaying', 'true')
+            } else {
+                var autoplay = false;
+                playBTN = 'play';
+                $(this).attr('isplaying', 'false');
+            }
+
             //Create the Video Controls
 
             let videoControlHTML = `
@@ -787,14 +822,14 @@ $(document).ready(function () {
                             Volume: 95%
                           </span>
                           <span class="screen-button">
-                            <i class="fa fa-play fa-5x fa-stack"></i>
+                            <i class="fa fa-` + playBTN + ` fa-5x fa-stack"></i>
                           </span>
                           <div class="ad-controls" locked>
                             <input type="range" name="" min="0" value="0" class="" id="seeker-control">
                             <div class="range-seeker"></div>
                             <div>
                               <button class="ad-btn ad-icon clear ad-round play ad-flat">
-                                <i class="fa fa-play"></i>
+                                <i class="fa fa-` + playBTN + `"></i>
                               </button>
                               <span class="ad-timer">
                                 <span class="currentTime">0:00</span>
@@ -828,13 +863,11 @@ $(document).ready(function () {
                           </div>
             `;
             $(this).append(videoControlHTML);
-            //check if video is at autoplay
-            if (videoPlayer[0].hasAttribute('autoplay')) {
 
-                $(this).attr('isplaying', 'true');
-            } else {
-                $(this).attr('isplaying', 'false');
-
+            // if autoplay remove lock and fade screenBTN
+            if (autoplay) {
+                $(this).find('span.screen-button').fadeOut('slow');
+                $(this).find('div.ad-controls').removeAttr('locked');
             }
 
             // Set The Timmer currentTime / Duration
@@ -850,7 +883,100 @@ $(document).ready(function () {
             videoNuu.updateVideoTimer(videoPlayer[0], timer, seekbar, divSeekbar);
 
             // Mark as constructed
-            $(this).attr('ad_constructed', true);
+            $(this).attr('_adConstructed', true);
+        });
+    }
+
+
+    // FOR VIDEO-REMIX
+
+    function constructVideoRemix() {
+        $('.ad-video-remix').not('[_adConstructed]').each(function () {
+
+            // check for video title: create the video title div
+                let videoTitle = $(this)[0].hasAttribute('videoTitle') ? $(this).attr('videoTitle'): '';
+
+            videoPlayerId = $(this)[0].hasAttribute('videoId') ? '#' + $(this).attr('videoId') : '#video';
+            let videoPlayer = $(this).find(videoPlayerId);
+            videoPlayer.removeAttr('controls');
+
+
+            //Check for autoplay
+            if (videoPlayer[0].hasAttribute('autoplay')) {
+                var autoplay = true;
+                playBTN = 'pause';
+                $(this).attr('isplaying', 'true')
+            } else {
+                var autoplay = false;
+                playBTN = 'play';
+                $(this).attr('isplaying', 'false');
+            }
+
+            //Create the Video Controls
+
+            let videoControlHTML = `
+            
+            <div class="ad-controls">
+            <div class="ad-header ad-flat">
+              <h2 class="title text-normal">`+videoTitle+`</h2>
+
+              <span class="rFloat">
+                  <button class="ad-btn ad-flat ">
+                      <i class="fa fa-sun-o"></i>
+                    </button>
+                <button class="ad-btn ad-flat ">
+                  <i class="fa fa-volume-up"></i>
+                </button>
+              </span>
+            </div>
+            <div class="ad-grid show-controls">
+              <div>
+                <button class="ad-btn ad-icon clear ad-flat play">
+                  <i class="fa fa-`+playBTN+`"></i>
+                </button>
+                <span class="ad-timer">
+                    <span class="currentTime">0:00</span>
+                </span>
+              </div>
+              <div class="ad-input">
+                <input type="range" min="0" step="0.02" value="0" id="seeker-control">
+              </div>
+              <div>
+                <span class="ad-timer">
+                    <span class="duration">0:00</span>
+                </span>
+                <button class="ad-btn ad-icon clear ad-flat fullscreen">
+                  <i class="fa fa-expand"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+            `;
+            $(this).append(videoControlHTML);
+
+            //autoplay
+            if(videoPlayer[0].hasAttribute('autoplay')){
+                
+                setTimeout(()=>{
+                    $(this).find('div.ad-grid.show-controls')
+                        .removeClass('show-controls');
+
+                },1000);
+            }
+            // Set The Timmer currentTime / Duration
+            timer = $(this).find('span.ad-timer');
+
+            // $(this).find('span.ad-message-display').fadeOut('slow');
+            // console.log($(videoPlayerId));
+            // seekbar = $(this).find('input#seeker-control-' + videoPlayerId.replace('#', '') + '')[0];
+            seekbar = $(this).find('input#seeker-control')[0];
+            divSeekbar = $(this).find('div.range-seeker');
+            // console.log('create video player instance');
+            let videoNuu = new mediaPlayerUpdate();
+            videoNuu.updateVideoTimer(videoPlayer[0], timer, seekbar, divSeekbar);
+
+            // Mark as constructed
+            $(this).attr('_adConstructed', true);
         });
     }
 
@@ -937,11 +1063,11 @@ $(document).ready(function () {
 
 
 
-    wrapper.on('click', '.ad-video button.play', function (e) {
+    wrapper.on('click', '.ad-video button.play, .ad-video-remix button.play', function (e) {
         e.stopPropagation();
 
 
-        let parent = $(this).parents('.ad-video');
+        let parent = $(this).parents('.ad-video').length !=0 ? $(this).parents('.ad-video') : $(this).parents('.ad-video-remix');
 
         // fade IN the screen button
         parent.find('span.screen-button').fadeIn('slow');
@@ -1168,10 +1294,10 @@ $(document).ready(function () {
         e.stopPropagation();
     });
 
-    wrapper.on('change', '.ad-video input#seeker-control', function (e) {
+    wrapper.on('change', '.ad-video input#seeker-control, .ad-video-remix input#seeker-control', function (e) {
         e.stopPropagation();
 
-        var parent = $(this).parents('.ad-video'); // get your video
+        var parent = $(this).parents('.ad-video').length !=0 ?$(this).parents('.ad-video') : $(this).parents('.ad-video-remix'); // get your video
         let videoPlayerId = parent[0].hasAttribute('videoId') ? '#' + parent.attr('videoId') : '#video';
         let vid = parent.find(videoPlayerId)[0];
         vid.currentTime = $(this).val(); //update its volume;
@@ -1182,10 +1308,10 @@ $(document).ready(function () {
 
 
     // Get Fullscreen
-    wrapper.on('click', '.ad-video button.fullscreen', function (e) {
+    wrapper.on('click', '.ad-video button.fullscreen, .ad-video-remix button.fullscreen', function (e) {
         e.stopPropagation();
 
-        let parent = $(this).parents('.ad-video');
+        let parent = $(this).parents('.ad-video').length != 0 ? $(this).parents('.ad-video') : $(this).parents('.ad-video-remix');
 
         if (
             document.fullscreenElement ||
@@ -1252,7 +1378,7 @@ $(document).ready(function () {
     // AUDIO PLAYER CONTROLS
 
     function constructAudio() {
-        $('.ad-audio').not('[ad_constructed]').each(function () {
+        $('.ad-audio').not('[_adConstructed]').each(function () {
 
             // check for audio title: create the video title div
             if ($(this)[0].hasAttribute('audioTitle')) {
@@ -1285,41 +1411,46 @@ $(document).ready(function () {
 
             let audioControlHTML = `
         
-        <input type="range" id="seeker-control">
-        <div class="range-seeker"></div>
+        
         <div class="audio-grid">
-          <div class="art">
-            <div class="ad-avatar ad-flat">
-            <div class="ad-img bg-dark">
+          <div class="art bg-dark">
+           
+            <div class="ad-img">
                 ` + poster + `
             </div>
-              <h2>` + audioTitle + `</h2>
-              <p>` + artist + `</p>
-            </div>
+           
           </div>
 
           <div class="">
             <div class="ad-controls">
-
+            <h2 class="ad-title">` + audioTitle + `</h2>
+            <div>` + artist + `</div>
+            <div class="range-container">
+                <div class="range-seeker"></div>
+                <input type="range" id="seeker-control">
+            </div>
 
               <span class="controls">
-                <button class="ad-btn btn-default ad-sm ad-icon ad-round  play">
-                  <i class="fa fa-play"></i>
-                </button>
+              <div class="top-controls">
                 <span class="fixedSpan">
                     <span class=" ad-timer">
-                    <!-- <p> -->
-                    <span class="currentTime">0:00</span>
-                    /
-                    <span class="duration">1:06</span>
+                    
+                        <span class="currentTime">0:00</span>
+                        /
+                        <span class="duration">1:06</span>
 
                     </span>
                 </span>
-                &nbsp;&nbsp;&nbsp;
-
-                <button class="ad-btn btn-default ad-sm  ad-icon ad-round loop">
-                  <i class="fa fa-refresh"></i>
+                
+                <button class="ad-btn btn-dark ad-sm ad-flat clear ad-icon ad-round rFloat loop">
+                <i class="fa fa-repeat"></i>
                 </button>
+                </div>
+                <div class="clearfix"></div>
+                <button class="ad-btn btn-default ad-sm ad-icon ad-round  play">
+                  <i class="fa fa-play"></i>
+                </button>
+                
                 
               </span>
             </div>
@@ -1349,7 +1480,7 @@ $(document).ready(function () {
             audioNuu.updateAudioTimer(audioPlayer[0], timer, seekbar, divSeekbar);
 
             // Mark as constructed
-            $(this).attr('ad_constructed', true);
+            $(this).attr('_adConstructed', true);
         });
     }
 
