@@ -5,15 +5,12 @@
 
 */
 
-
 /* BASE-- base, variables, mixins, normalize */
 
 @import "base/_variables.scss";
 @import "base/_mixins.scss";
 @import "base/_normalize.scss";
 @import "base/_animation.scss";
-
-
 /* Components --- Media elements styles*/
 
 @import "component/_slider.scss";

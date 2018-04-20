@@ -1,6 +1,7 @@
 $(document).ready(function () {
 
     var wrapper = $('body');
+    
     // first scan DOM for .ad-slider or .ad-slide-group
 
 
@@ -240,6 +241,13 @@ $(document).ready(function () {
 
 
             audio.ontimeupdate = function () {
+                if (!seekbar.max) {
+                    seekbar.max = vid.duration;
+                    var minutes = parseInt(vid.duration / 60, 10);
+                    var seconds = ("0" + parseInt(vid.duration % 60)).slice(-2);
+                    timer.find('span.duration').html(minutes + ':' + seconds);
+                }
+
                 // Display the current position of the video in a <p> element with id="demo"
                 seekbar.value = audio.currentTime;
                 divSeekbar.css('width', (audio.currentTime / audio.duration) * 100 + '%');
@@ -384,8 +392,8 @@ $(document).ready(function () {
 
             if (showNav && $this.find('.ad-slide-previous').length == 0) {
 
-                prevNav = '<div  class="ad-slide-previous "><button class="ad-btn ad-md ad-flat ad-round ad-icon no-margin"><i class="fa fa-angle-left "></i></button></div>';
-                nextNav = '<div  class="ad-slide-next "><button class="ad-btn ad-md ad-flat ad-round ad-icon no-margin" style="margin-left:-8px;"><i class="fa fa-angle-right "></i></button></div>';
+                prevNav = '<div  class="ad-slide-previous "><button class="ad-btn ad-sm ad-flat ad-round ad-icon no-margin"><i class="fa fa-angle-left "></i></button></div>';
+                nextNav = '<div  class="ad-slide-next "><button class="ad-btn ad-sm ad-flat ad-round ad-icon no-margin" style="margin-left:-8px;"><i class="fa fa-angle-right "></i></button></div>';
                 $this.append(prevNav + nextNav);
 
             }
@@ -581,13 +589,13 @@ $(document).ready(function () {
         openConstruct = ' <div class="carousel-container"><div class="carousel-overflow">';
         closeConstruct = '</div></div>';
 
-        prevNav = '<div  class="ad-carousel-previous hidden"><button class="ad-btn ad-md ad-flat ad-round ad-icon"><i class="fa fa-angle-left "></i></button></div>';
-        nextNav = '<div  class="ad-carousel-next "><button class="ad-btn ad-md ad-flat ad-round ad-icon"><i class="fa fa-angle-right"></i></button></div>';
+        prevNav = '<div  class="ad-carousel-previous hidden"><button class="ad-btn ad-sm ad-flat ad-round ad-icon"><i class="fa fa-angle-left "></i></button></div>';
+        nextNav = '<div  class="ad-carousel-next "><button class="ad-btn ad-sm ad-flat ad-round ad-icon"><i class="fa fa-angle-right"></i></button></div>';
 
         $('.ad-carousel').not('[_adConstructed]').each(function () {
 
-             // First check if it has the caursol-overflow, then skip wrap
-             if($(this).find('div.carousel-overflow').length == 0){
+            // First check if it has the caursol-overflow, then skip wrap
+            if ($(this).find('div.carousel-overflow').length == 0) {
 
                 if ($(this)[0].hasAttribute('items')) {
                     console.log('items found');
@@ -596,7 +604,7 @@ $(document).ready(function () {
                     console.log('items Not found, using default');
                     wrapped = $(this).find('.ad-carousel-item').wrapAll("<div class='carousel-overflow'></div>");
                 }
-    
+
                 $(this).find('div.carousel-overflow').wrap("<div class='carousel-container'></div>");
             }
             // console.log('element wrapped',wrapped);
@@ -640,6 +648,8 @@ $(document).ready(function () {
     function resizeCarousel(carousel) {
 
         $this = carousel.find('.carousel-container');
+        // zero out the margin
+
         if (carousel[0].hasAttribute('items')) {
 
             item = $this.find('.' + carousel.attr('items') + '');
@@ -657,30 +667,45 @@ $(document).ready(function () {
         // console.log('number to shopwwwwwwwwwwwww', visibleItems);
 
         // Calculate the marign-right of the items, base on the items to show and the ad-carousel width
-        leftSpace = $this.width() - (visibleItems * item.width());
-        margin = leftSpace / visibleItems
-        // console.log('space, margin isssssssss', leftSpace, margin, 2.5.toFixed());
 
-        item.css('margin', '0 ' + (margin / 2) + 'px');
-        // console.log((margin) + 'px');
+        console.log('flow is,', carousel[0].hasAttribute('flow'))
+        if (!carousel[0].hasAttribute('flow')) {
+            leftSpace = $this.width() - (visibleItems * item.width());
+
+            margin = leftSpace / visibleItems
+            // console.log('space, margin isssssssss', leftSpace, margin, 2.5.toFixed());
+
+            item.css('margin', '0 ' + (margin / 2) + 'px');
+            // console.log((margin) + 'px');
+
+            // create emoveby
+            moveBy = item.width() + margin;
+            consolidate = (margin * item.length) / 100 + ($this.width() * .002); //rework here for compatibility
+            carousel.attr('moveby', Math.round(moveBy + consolidate));
+        } else {
+            margin = 0;
+            carousel.attr('moveby', item.width());
+        }
+
 
         containerWidth = (item.width() * item.length) + item.width() * margin;
         container.css('width', containerWidth);
         // console.log('container withggggggggggggg', containerWidth, $this.width());
 
 
-        // create emoveby
-        moveBy = item.width() + margin;
-        consolidate = (margin * item.length) / 100 + ($this.width() * .002);
-        carousel.attr('moveby', Math.round(moveBy + consolidate));
 
+        // Default Container to margin 0
+        container.css('margin-left', 0);
+        // Then hide the prevoius btn, show the now
+        carousel.find('.ad-carousel-previous').addClass('hidden');
+        carousel.find('.ad-carousel-next').removeClass('hidden');
 
         // create hidden carousel for navigation
-        if (carousel[0].hasAttribute('caurosel_hidden-items')) {
-            lHiddenItems = carousel.attr('caurosel_hidden-items');
-        } else {
-            lHiddenItems = 0
-        }
+        // if (carousel[0].hasAttribute('caurosel_hidden-items')) {
+        //     lHiddenItems = carousel.attr('caurosel_hidden-items');
+        // } else {
+        lHiddenItems = 0
+        // }
 
         carousel.attr('caurosel_hidden-items', lHiddenItems);
         carousel.attr('caurosel_shown-items', visibleItems);
@@ -894,7 +919,7 @@ $(document).ready(function () {
         $('.ad-video-remix').not('[_adConstructed]').each(function () {
 
             // check for video title: create the video title div
-                let videoTitle = $(this)[0].hasAttribute('videoTitle') ? $(this).attr('videoTitle'): '';
+            let videoTitle = $(this)[0].hasAttribute('videoTitle') ? $(this).attr('videoTitle') : '';
 
             videoPlayerId = $(this)[0].hasAttribute('videoId') ? '#' + $(this).attr('videoId') : '#video';
             let videoPlayer = $(this).find(videoPlayerId);
@@ -918,7 +943,7 @@ $(document).ready(function () {
             
             <div class="ad-controls">
             <div class="ad-header ad-flat">
-              <h2 class="title text-normal">`+videoTitle+`</h2>
+              <h2 class="title text-normal">` + videoTitle + `</h2>
 
               <span class="rFloat">
                   <button class="ad-btn ad-flat ">
@@ -932,7 +957,7 @@ $(document).ready(function () {
             <div class="ad-grid show-controls">
               <div>
                 <button class="ad-btn ad-icon clear ad-flat play">
-                  <i class="fa fa-`+playBTN+`"></i>
+                  <i class="fa fa-` + playBTN + `"></i>
                 </button>
                 <span class="ad-timer">
                     <span class="currentTime">0:00</span>
@@ -955,13 +980,13 @@ $(document).ready(function () {
             $(this).append(videoControlHTML);
 
             //autoplay
-            if(videoPlayer[0].hasAttribute('autoplay')){
-                
-                setTimeout(()=>{
+            if (videoPlayer[0].hasAttribute('autoplay')) {
+
+                setTimeout(() => {
                     $(this).find('div.ad-grid.show-controls')
                         .removeClass('show-controls');
 
-                },1000);
+                }, 1000);
             }
             // Set The Timmer currentTime / Duration
             timer = $(this).find('span.ad-timer');
@@ -1067,7 +1092,7 @@ $(document).ready(function () {
         e.stopPropagation();
 
 
-        let parent = $(this).parents('.ad-video').length !=0 ? $(this).parents('.ad-video') : $(this).parents('.ad-video-remix');
+        let parent = $(this).parents('.ad-video').length != 0 ? $(this).parents('.ad-video') : $(this).parents('.ad-video-remix');
 
         // fade IN the screen button
         parent.find('span.screen-button').fadeIn('slow');
@@ -1297,7 +1322,7 @@ $(document).ready(function () {
     wrapper.on('change', '.ad-video input#seeker-control, .ad-video-remix input#seeker-control', function (e) {
         e.stopPropagation();
 
-        var parent = $(this).parents('.ad-video').length !=0 ?$(this).parents('.ad-video') : $(this).parents('.ad-video-remix'); // get your video
+        var parent = $(this).parents('.ad-video').length != 0 ? $(this).parents('.ad-video') : $(this).parents('.ad-video-remix'); // get your video
         let videoPlayerId = parent[0].hasAttribute('videoId') ? '#' + parent.attr('videoId') : '#video';
         let vid = parent.find(videoPlayerId)[0];
         vid.currentTime = $(this).val(); //update its volume;

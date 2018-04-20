@@ -8,8 +8,7 @@
     padding: 0;
     margin-top: -3px;
     height: 160px;
-    overflow: hidden;
-    // &:after {
+    overflow: hidden; // &:after {
     //     position: absolute;
     //     display: block;
     //     left: 0;
@@ -21,30 +20,24 @@
     //     content: '';
     //     z-index: 0;
     // }
-
-
-    .audio-grid{
+    .audio-grid {
         display: grid;
         grid-template-columns: 160px auto;
-        img{
+        img {
             height: 160px;
         }
-
-        div{
-            overflow:hidden;
+        div {
+            overflow: hidden;
             text-align: center;
-
-            h2{
-                margin:5px;
+            h2 {
+                margin: 5px;
                 margin-top: 10px;
             }
         }
-        .controls{
+        .controls {
             justify-self: end;
         }
     }
-
-
     div.range-seeker {
         // position: absolute;
         display: block;
@@ -58,48 +51,36 @@
         background-color: $tGreen;
         user-select: none;
     }
-
-    div.range-container{
+    div.range-container {
         display: block;
-        margin:10px 15%;
-        background-color:black;
+        margin: 10px 15%;
+        background-color: black;
         height: 4px;
         overflow: hidden;
         border-radius: 2px;
-
     }
-
-    div.top-controls{
-        margin:0 15%;
-        margin-top:-10px;
-        // background-color: red;
-        padding:0;
-        // height:10px;
+    div.top-controls {
+        margin: 0 15%;
+        margin-top: -10px; // background-color: red;
+        padding: 0; // height:10px;
         text-align: left;
-
-        button{
-            margin-top:-10px;
-
-            
+        button {
+            margin-top: -10px;
         }
-
     }
-    div.clearfix{
-        margin:0;
-        padding:0;
-        height:0;
-        background-color:red;
-        position:relative;
+    div.clearfix {
+        margin: 0;
+        padding: 0;
+        height: 0;
+        background-color: red;
+        position: relative;
         display: none;
     }
-
-    button.play{
+    button.play {
         position: relative;
-        top:-30px;
-
+        top: -30px;
     }
-
-    div.art{
+    div.art {
         font-size: 30px;
         line-height: 160px;
     }
@@ -113,7 +94,6 @@
         margin-top: -4px;
         z-index: 70;
         opacity: 0;
-
         -moz-transform: translateY(-6px);
     }
     .ad-avatar {

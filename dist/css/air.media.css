@@ -5,57 +5,6 @@
 
 */
 /* BASE-- base, variables, mixins, normalize */
-.ad-spinner {
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: 0;
-  background-color: #222c37;
-  z-index: 60; }
-  .ad-spinner.bg-white {
-    background-color: white;
-    color: #222c37; }
-  .ad-spinner.bg-smoke {
-    background-color: whitesmoke;
-    color: #222c37; }
-  .ad-spinner.bg-prim {
-    background-color: #28d0ea;
-    color: white; }
-  .ad-spinner.bg-pink {
-    background-color: #ff0066;
-    color: white; }
-  .ad-spinner.bg-tgreen {
-    background-color: #19e3b1;
-    color: #222c37; }
-  .ad-spinner:before {
-    position: absolute;
-    width: 100px;
-    height: 100px;
-    content: '';
-    left: 50%;
-    margin-left: -55px;
-    top: 50%;
-    margin-top: -55px;
-    border-radius: 50%;
-    border: 8px solid  greenyellow;
-    -webkit-animation: lds-ripple 1s cubic-bezier(0, 0.2, 0.8, 1) infinite;
-    animation: lds-ripple 1s cubic-bezier(0, 0.2, 0.8, 1) infinite; }
-
-@-webkit-keyframes lds-ripple {
-  0% {
-    transform: scale(0.1);
-    opacity: 1; }
-  100% {
-    transform: scale(1);
-    opacity: 0; } }
-@keyframes lds-ripple {
-  0% {
-    transform: scale(0.1);
-    opacity: 1; }
-  100% {
-    transform: scale(1);
-    opacity: 0; } }
 @keyframes anim-fadeIn {
   from {
     opacity: 0; }
@@ -175,16 +124,22 @@
       width: 20%;
       margin: 0 5px;
       border-radius: 3px;
-      opacity: .5;
+      opacity: 1;
       cursor: pointer;
       -webkit-transition: all 0.3s ease-out 0s;
       -moz-transition: all 0.3s ease-out 0s;
       -o-transition: all 0.3s ease-out 0s;
       transition: all 0.3s ease-out 0s; }
       .ad-slide-group .ad-slide-bullet span.active {
-        opacity: 1; }
+        opacity: 1;
+        background-color: #212a35; }
       .ad-slide-group .ad-slide-bullet span:hover {
         opacity: .9; }
+  .ad-slide-group[roundBullet] .ad-slide-bullet span {
+    width: 10px;
+    height: 10px;
+    margin-top: -5px;
+    border-radius: 50%; }
   .ad-slide-group .ad-slide-previous {
     position: absolute;
     left: 5px;
@@ -192,7 +147,6 @@
     width: 60px;
     height: 60px;
     margin-top: -30px;
-    opacity: .7;
     cursor: pointer;
     text-align: center;
     -webkit-transition: all 0.3s ease-out 0s;
@@ -202,8 +156,10 @@
     z-index: 10; }
     .ad-slide-group .ad-slide-previous > i {
       line-height: 60px; }
+    .ad-slide-group .ad-slide-previous > .ad-btn {
+      background-color: rgba(34, 44, 55, 0.5);
+      color: white; }
     .ad-slide-group .ad-slide-previous:hover {
-      opacity: 1;
       left: 0; }
     .ad-slide-group .ad-slide-previous:active {
       transform: scale(1.1); }
@@ -214,7 +170,7 @@
     width: 60px;
     height: 60px;
     margin-top: -30px;
-    opacity: .5;
+    opacity: 1;
     cursor: pointer;
     text-align: center;
     -webkit-transition: all 0.3s ease-out 0s;
@@ -224,6 +180,10 @@
     z-index: 10; }
     .ad-slide-group .ad-slide-next > i {
       line-height: 60px; }
+    .ad-slide-group .ad-slide-next > .ad-btn {
+      background-color: rgba(34, 44, 55, 0.5);
+      color: white;
+      transform: translateX(8px); }
     .ad-slide-group .ad-slide-next:hover {
       opacity: 1;
       right: 0; }
@@ -294,20 +254,21 @@
       -o-transition: all 0.3s ease-out 0s;
       transition: all 0.3s ease-out 0s; }
       .ad-carousel .carousel-container .carousel-overflow .ad-carousel-item {
+        display: inline-block;
         width: 220px;
         min-height: 220px;
         padding: 0;
         margin: 0;
         background-color: white;
-        display: inline-block;
         vertical-align: top; }
+        .ad-carousel .carousel-container .carousel-overflow .ad-carousel-item:nth-child(even) {
+          background-color: #5f5d5d; }
   .ad-carousel .ad-carousel-previous {
     position: absolute;
     left: 5px;
     top: 0;
     width: 60px;
     height: 100%;
-    opacity: .7;
     cursor: pointer;
     text-align: center;
     -webkit-transition: all 0.3s ease-out 0s;
@@ -318,7 +279,9 @@
     .ad-carousel .ad-carousel-previous .ad-btn {
       position: relative;
       top: 50%;
-      margin-top: -25px; }
+      margin-top: -25px;
+      background-color: rgba(34, 44, 55, 0.5);
+      color: white; }
     .ad-carousel .ad-carousel-previous > i {
       line-height: 60px; }
     .ad-carousel .ad-carousel-previous:hover {
@@ -332,7 +295,6 @@
     top: 0;
     width: 60px;
     height: 100%;
-    opacity: .5;
     cursor: pointer;
     text-align: center;
     -webkit-transition: all 0.3s ease-out 0s;
@@ -343,7 +305,9 @@
     .ad-carousel .ad-carousel-next .ad-btn {
       position: relative;
       top: 50%;
-      margin-top: -25px; }
+      margin-top: -25px;
+      background-color: rgba(34, 44, 55, 0.5);
+      color: white; }
     .ad-carousel .ad-carousel-next > i {
       line-height: 60px; }
     .ad-carousel .ad-carousel-next:hover {
@@ -617,6 +581,15 @@
     -mz-box-shadow: 0 0 10px 5px #28d0ea;
     box-shadow: 0 0 10px 5px #28d0ea; }
 
+@media screen and (max-width: 513px) {
+  .ad-video span.screen-button i.fa-play {
+    margin-left: 4px;
+    margin-top: -2px;
+    transform: scale(1.5); }
+  .ad-video span.screen-button i.fa-pause {
+    margin-left: -2px;
+    margin-top: -2px;
+    transform: scale(1.3); } }
 .ad-video-remix {
   display: block;
   width: 100%;

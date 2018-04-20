@@ -65,6 +65,7 @@ Include in your head tag a link referecing to air.media.css file location , then
 All the effects are written in css and can be extended with the scss files. if you have any transition effect in mind, contact us.
 *   Top stop autoplay of the slider, add the attribute 'manual' to the .ad-slide-group. This way, the slide will change only if the bullets or navigation buttons are clicked.
 *   showNav is another attribute that is set to true by default. to ommit the navigation buttons (prev and next buttons), set the attrubute showNav to false;
+*   roundbullet to change the bullet rounded design. Its best suite for multiple slides to afford the spacing
 
 
 *   There are  cases where the slider will flicker or wait for some seconds before the contents appear, such occurances are not good for user experience. Instead of letting the user see that, the best solution is to add a waiting animation. 
@@ -160,6 +161,7 @@ All the effects are written in css and can be extended with the scss files. if y
     screen size.
     *   Hence, set the items attribute of the carousel to ad-persons,
     *   Then place the element with the class ad-persons in the carousel
+    *   You can also add the flow attribute if you want the carousel items to mave no margins.
 
 ```html
  <div class="ad-carousel" items="ad-persons">
