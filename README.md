@@ -7,10 +7,10 @@
 The airMedia library is dependent on the airDesign CSS framework. So please make sure you already have it installed.
 Jquery 3.2+
 ## GETTING STARTED
-Dowload the library from this page. it comes bundled in a zip file containing, a css folder, js folder and a fonts folder. The css folder contains the air.media.css . The js folder contains air.media.js which is used for events, to construct the media components and enhances appearance in the libraries. 
+Dowload the library from this page. it comes bundled in a zip file containing, a css folder, js folder and a fonts folder. The css folder contains the air.media.css . The js folder contains air.media.js which is used for events, to construct the media components and enhances appearance in the libraries.
 
-## INSTALLATION 
-Include in your head tag a link referecing to air.media.css file location , then also include the javascript file. air.media.js is written in jQuery so the Jquery library is required( version 3 and above). 
+## INSTALLATION
+Include in your head tag a link referecing to air.media.css file location , then also include the javascript file. air.media.js is written in jQuery so the Jquery library is required( version 3 and above).
 
 ```html
 <link rel="stylesheet" type="text/css" href="css/air.medai.css"/>
@@ -50,25 +50,25 @@ Include in your head tag a link referecing to air.media.css file location , then
 *  adding the responsive attribute to the slider will make the slider responsive when the screen size is change. the default the height of the slider is the height of the first slide
 *   duration is used to set the time it takes a slide to stay on view. you can ommit it and the default is 5 seconds
 *   effect :  This is the transition effect
-    *  fadeIn, 
-    *   slideUp, 
-    *   slideDown, 
-    *   slideLeft, 
-    *   slideRight, 
-    *   zoomIn, 
-    *   zoomOut, 
-    *   crossUp, 
-    *   crossDown, 
-    *   crossLeft, 
+    *  fadeIn,
+    *   slideUp,
+    *   slideDown,
+    *   slideLeft,
+    *   slideRight,
+    *   zoomIn,
+    *   zoomOut,
+    *   crossUp,
+    *   crossDown,
+    *   crossLeft,
     *   crossRight.
 
 All the effects are written in css and can be extended with the scss files. if you have any transition effect in mind, contact us.
-*   Top stop autoplay of the slider, add the attribute 'manual' to the .ad-slide-group. This way, the slide will change only if the bullets or navigation buttons are clicked.
+*   To stop autoplay of the slider, add the attribute 'manual' to the .ad-slide-group. This way, the slide will change only if the bullets or navigation buttons are clicked.
 *   showNav is another attribute that is set to true by default. to ommit the navigation buttons (prev and next buttons), set the attrubute showNav to false;
 *   roundbullet to change the bullet rounded design. Its best suite for multiple slides to afford the spacing
 
 
-*   There are  cases where the slider will flicker or wait for some seconds before the contents appear, such occurances are not good for user experience. Instead of letting the user see that, the best solution is to add a waiting animation. 
+*   There are  cases where the slider will flicker or wait for some seconds before the contents appear, such occurances are not good for user experience. Instead of letting the user see that, the best solution is to add a waiting animation.
     *   To do that, add a div with the class .ad-spinner.
     *   The spinner class will show for 3ms or until the content of the slider, carousel or video is fully loaded.
     *   This also solves the case of constructing 'air media's element which are called via AJAX.
@@ -78,7 +78,7 @@ All the effects are written in css and can be extended with the scss files. if y
 ```html
  <div class="ad-slide-group" effect="zoomIn">
      <div class="ad-spinner "></div>
-     
+
     <div class="ad-slide ">
         ...
     </div>
@@ -120,18 +120,18 @@ All the effects are written in css and can be extended with the scss files. if y
 ```
 
 *   NOTE: The loading div can be applied to all airmedia's components. the 'background-color' property of the ad-spinner div can be change to match the template of your design.
-    *   From airDesign's CSS framework, the class: 
-    *   darkBG applies a dark background -- default for the ad-spinner class
-    *   whiteBG applies a white background
-    *   pinkBG applies a pink background
-    *   blueBG applies a blue background
-    *   primBG applies a primary color background & etc.
+    *   From airDesign's CSS framework, the class:
+    *   bg-dark applies a dark background -- default for the ad-spinner class
+    *   bg-white applies a white background
+    *   bg-pink applies a pink background
+    *   bg-blue applies a blue background
+    *   bg-prim applies a primary color background & etc.
 
 
 ## Carousel
 ```html
  <div class="ad-carousel">
-  
+
     <div class="ad-carousel-item">
         item 1
     </div>
@@ -156,7 +156,7 @@ All the effects are written in css and can be extended with the scss files. if y
 
 ```
 
-* Put your items into the .ad-caurosel-item, or better, set the items attribute to the class name of the items you want the caurosel to move. 
+* Put your items into the .ad-caurosel-item, or better, set the items attribute to the class name of the items you want the caurosel to move.
     *   eg. i want the item to be .ad-persons (which has a defined width). The carousel uses the width of the items to make calculations of the appropriate number of items that are suppose to be in view, in any given
     screen size.
     *   Hence, set the items attribute of the carousel to ad-persons,
@@ -165,7 +165,7 @@ All the effects are written in css and can be extended with the scss files. if y
 
 ```html
  <div class="ad-carousel" items="ad-persons">
-  
+
     <div class="ad-persons">
         {{IMG}}
         Person Name
@@ -203,7 +203,7 @@ All the effects are written in css and can be extended with the scss files. if y
 
 
 ## Media Player
-   
+
 Adding airdesign's Video and Audio to your html is as simple as adding the video element itself.
 *   Create a div with class '.ad-video';
 *   In the element 'div.ad-video' add the video element with the 'controls' attribute.
@@ -287,7 +287,7 @@ Adding airdesign's Video and Audio to your html is as simple as adding the video
 *   Make Video full screen by clicking on the fullscreen button
 *   Click the more/setting icon to display other info, such as 'video playlist, settings, video info etc.' [under development];
 
-    
+
 
 
 ###For Audio
