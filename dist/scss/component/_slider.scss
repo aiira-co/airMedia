@@ -46,8 +46,8 @@
             display: inline-block;
             vertical-align: top;
             background-color: white;
-            height: 4px;
-            width: 20%;
+            height: 2px;
+            width: 15%;
             margin: 0 5px;
             border-radius: 3px;
             opacity: 1;
@@ -65,8 +65,8 @@
     &[roundBullet] {
         .ad-slide-bullet {
             span {
-                width: 10px;
-                height: 10px;
+                width: 7px;
+                height: 7px;
                 margin-top: -5px;
                 border-radius: 50%;
             }
@@ -78,7 +78,7 @@
         top: 50%;
         width: 60px;
         height: 60px;
-        margin-top: -30px; 
+        margin-top: -30px;
         // background-color:chocolate;
         // opacity: .7;
         cursor: pointer;

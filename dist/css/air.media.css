@@ -120,8 +120,8 @@
       display: inline-block;
       vertical-align: top;
       background-color: white;
-      height: 4px;
-      width: 20%;
+      height: 2px;
+      width: 15%;
       margin: 0 5px;
       border-radius: 3px;
       opacity: 1;
@@ -136,8 +136,8 @@
       .ad-slide-group .ad-slide-bullet span:hover {
         opacity: .9; }
   .ad-slide-group[roundBullet] .ad-slide-bullet span {
-    width: 10px;
-    height: 10px;
+    width: 7px;
+    height: 7px;
     margin-top: -5px;
     border-radius: 50%; }
   .ad-slide-group .ad-slide-previous {
