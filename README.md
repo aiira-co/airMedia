@@ -1,4 +1,5 @@
 # airMedia
+![alt text](https://raw.githubusercontent.com/air-Design/airUI-Design-and-Media-.Tutorial-Example/media/sliser.JPG)
 *   Code Beautiful
 *   For full documentation, visit http://airdesign.co.nf
 *   For Demo, go here http://airdesign.co.nf/air_media
