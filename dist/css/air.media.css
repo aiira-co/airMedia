@@ -240,6 +240,12 @@
   position: relative;
   width: 100%;
   min-height: 50px; }
+  .ad-carousel > * {
+    opacity: 0;
+    visibility: collapse; }
+  .ad-carousel[_adconstructed] > * {
+    opacity: 1;
+    visibility: visible; }
   .ad-carousel .carousel-container {
     width: 100%;
     margin: 0;

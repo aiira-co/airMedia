@@ -408,10 +408,15 @@ $(document).ready(function () {
             slides.removeClass('active');
             slideBullets.removeClass('active');
 
-            slide1.addClass('active');
-            slideBullets[0].classList.add('active');
-            currentSlide = 0;
-            $this.attr('currentslide', 0);
+            setTimeout( ()=> {
+                slide1.addClass('active');
+                slideBullets[0].classList.add('active');
+                currentSlide = 0;
+                $this.attr('currentslide', 0);
+                
+            }, 1000);
+
+            
 
             //Check for spinner
             let spinner = $this.find('.ad-spinner');
