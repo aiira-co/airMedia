@@ -1,4 +1,11 @@
-# airMedia
+# For Latest, use Designa-Media-Component -> https://github.com/air-Design/designa-media-component
+* To use individual components, first download designa-core which contains only basic css and buttons.
+The media components uses classes in the designa-core.css file -> https://github.com/air-Design/designa-core
+* To use only content slider -> https://github.com/air-Design/designa-slider
+* To use only video player -> https://github.com/air-Design/designa-video-player
+* To use only Audio player -> https://github.com/air-Design/designa-audio-player
+* To use only carousel slider -> https://github.com/air-Design/designa-carousel
+# airMedia (outdated, now current version is designa-media-component)
 ![alt text](https://raw.githubusercontent.com/air-Design/airUI-Design-and-Media-.Tutorial-Example/media/sliser.JPG)
 *   Code Beautiful
 *   For full documentation, visit http://airdesign.co.nf
